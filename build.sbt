@@ -23,10 +23,10 @@ developers := List(
   )
 )
 
-crossScalaVersions := List("2.11.12", "2.12.8", "2.13.0-M5")
+crossScalaVersions := List("2.10.7", "2.11.12", "2.12.8", "2.13.0-M5")
 
 libraryDependencies ++= Seq(
-  "org.scalatest" %% "scalatest" % "3.1.0-SNAP7",
+  "org.scalatest" %% "scalatest" % "3.1.0-SNAP8",
   "org.seleniumhq.selenium" % "selenium-java" % "2.45.0",
   "org.eclipse.jetty" % "jetty-server" % "9.4.12.v20180830" % "test",
   "org.eclipse.jetty" % "jetty-webapp" % "9.4.12.v20180830" % "test"
