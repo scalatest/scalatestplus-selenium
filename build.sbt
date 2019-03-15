@@ -38,6 +38,28 @@ testOptions in Test :=
     "-l", "org.scalatest.tags.Slow"
   ))
 
+enablePlugins(SbtOsgi)
+
+osgiSettings
+
+OsgiKeys.exportPackage := Seq(
+  "org.scalatestplus.selenium.*"
+)
+
+OsgiKeys.importPackage := Seq(
+  "org.scalatest.*",
+  "org.scalactic.*", 
+  "scala.*;version=\"$<range;[==,=+);$<replace;"+scalaBinaryVersion.value+";-;.>>\"",
+  "*;resolution:=optional"
+)
+
+OsgiKeys.additionalHeaders:= Map(
+  "Bundle-Name" -> "ScalaTestPlusSelenium",
+  "Bundle-Description" -> "ScalaTest+Selenium is an open-source integration library between ScalaTest and Selenium for Scala projects.",
+  "Bundle-DocURL" -> "http://www.scalatest.org/",
+  "Bundle-Vendor" -> "Artima, Inc."
+)
+
 publishTo := {
   val nexus = "https://oss.sonatype.org/"
   Some("publish-releases" at nexus + "service/local/staging/deploy/maven2")
