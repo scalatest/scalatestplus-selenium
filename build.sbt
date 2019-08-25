@@ -2,7 +2,7 @@ name := "scalatestplus-selenium"
 
 organization := "org.scalatestplus"
 
-version := "1.0.0-SNAP5"
+version := "1.0.0-M1"
 
 homepage := Some(url("https://github.com/scalatest/scalatestplus-selenium"))
 
@@ -26,7 +26,7 @@ developers := List(
 crossScalaVersions := List("2.10.7", "2.11.12", "2.12.8", "2.13.0")
 
 libraryDependencies ++= Seq(
-  "org.scalatest" %% "scalatest" % "3.1.0-SNAP13",
+  "org.scalatest" %% "scalatest" % "3.1.0-M1",
   "org.seleniumhq.selenium" % "selenium-java" % "2.45.0",
   "org.eclipse.jetty" % "jetty-server" % "9.4.12.v20180830" % "test",
   "org.eclipse.jetty" % "jetty-webapp" % "9.4.12.v20180830" % "test"
