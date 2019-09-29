@@ -21,7 +21,7 @@ import org.openqa.selenium.WebDriver.{Options, TargetLocator, Navigation}
 import org.openqa.selenium._
 import org.scalatest.exceptions.TestFailedException
 import org.scalatest.exceptions.StackDepthException
-import org.scalatest.Matchers
+import org.scalatest.matchers.should.Matchers
 
 import org.scalactic.source
 

@@ -26,10 +26,7 @@ import org.openqa.selenium.firefox.FirefoxProfile
 import org.openqa.selenium.htmlunit.HtmlUnitDriver
 import org.openqa.selenium.ie.InternetExplorerDriver
 import org.openqa.selenium.safari.SafariDriver
-import org.scalatest.Args
-import org.scalatest.FunSpec
-import org.scalatest.Matchers
-import org.scalatest.ParallelTestExecution
+import org.scalatest._
 import SharedHelpers.SilentReporter
 import org.scalatest.Suite
 import org.scalatest.exceptions.TestFailedException
@@ -40,7 +37,7 @@ import org.scalatest.time.SpanSugar
 import scala.reflect.ClassTag
 import org.scalactic.source.Position.here
 
-trait InputFieldBehaviour extends JettySpec with Matchers with SpanSugar with WebBrowser with HtmlUnit {
+trait InputFieldBehaviour extends JettySpec with matchers.should.Matchers with SpanSugar with WebBrowser with HtmlUnit {
   def inputField[T <: ValueElement](file: String, fn: (String) => T, typeDescription: String, description: String, value1: String, value2: String, lineNumber: Int): Unit = {
     it("should throw TFE with valid stack depth if specified item not found") {
       go to (host + file)
@@ -160,7 +157,7 @@ trait InputFieldBehaviour extends JettySpec with Matchers with SpanSugar with We
 
 }
 
-class WebBrowserSpec extends JettySpec with Matchers with SpanSugar with WebBrowser with HtmlUnit with InputFieldBehaviour {
+class WebBrowserSpec extends JettySpec with matchers.should.Matchers with SpanSugar with WebBrowser with HtmlUnit with InputFieldBehaviour {
 
   describe("textField") {
     it("should throw TFE with valid stack depth if specified item not found") {

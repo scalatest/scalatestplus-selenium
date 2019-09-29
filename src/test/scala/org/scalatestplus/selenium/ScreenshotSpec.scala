@@ -15,13 +15,13 @@
  */
 package org.scalatestplus.selenium
 
-import org.scalatest.{FunSpec, FunSuite}
+import org.scalatest._
 import org.scalatest.time.SpanSugar
 import java.io.File
 import org.scalatest.Args
 import org.scalatestplus.selenium.SharedHelpers.SilentReporter
 import org.scalatest.Ignore
-import org.scalatest.Matchers
+import org.scalatest.matchers.should.Matchers
 
 @Ignore
 class ScreenshotSpec extends JettySpec with Matchers with SpanSugar with WebBrowser with HtmlUnit {
