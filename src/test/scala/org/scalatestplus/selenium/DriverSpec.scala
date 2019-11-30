@@ -8,11 +8,11 @@ import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.ie.InternetExplorerDriver
 import org.scalatest.tagobjects.Slow
 
-class DriverSpec extends FunSpec {
+class DriverSpec extends funspec.AnyFunSpec {
 
   describe("Tests grouped using Driver trait") {
 
-    trait GoogleSearchSpec extends FunSpecLike with concurrent.Eventually { this: WebBrowser with Driver =>
+    trait GoogleSearchSpec extends funspec.AnyFunSpecLike with concurrent.Eventually { this: WebBrowser with Driver =>
 
       describe("google.com") {
 

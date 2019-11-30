@@ -19,7 +19,7 @@ import org.scalatest._
 import org.eclipse.jetty.server.{NetworkConnector, Server}
 import org.eclipse.jetty.webapp.WebAppContext
 
-trait JettySpec extends FunSpec {
+trait JettySpec extends funspec.AnyFunSpec {
   
   private val serverThread = new Thread() {
     private val server = new Server(0)
