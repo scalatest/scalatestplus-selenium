@@ -46,6 +46,7 @@ import org.openqa.selenium.JavascriptExecutor
 import org.scalatest.time.Nanosecond
 import org.scalatest.Resources
 import org.scalactic.source
+import org.openqa.selenium.firefox.FirefoxOptions
 
 /**
  * Trait that provides a domain specific language (DSL) for writing browser-based tests using <a href="http://seleniumhq.org">Selenium</a>.  
@@ -4630,14 +4631,25 @@ object HtmlUnit extends HtmlUnit
 trait Firefox extends WebBrowser with Driver with ScreenshotCapturer {
 
   /**
-   * The <code>FirefoxProfile</code> passed to the constructor of the <code>FirefoxDriver</code> returned by <code>webDriver</code>.
+   * The <code>FirefoxProfile</code> seet into <code>FirefoxOptions</code> returned by <code>firefoxOptions</code>.
    *
    * <p>
-   * The <code>FirefoxDriver</code> uses the <code>FirefoxProfile</code> defined as <code>firefoxProfile</code>. By default this is just a <code>new FirefoxProfile</code>.
+   * The <code>FirefoxOptions</code> uses the <code>FirefoxProfile</code> defined as <code>firefoxProfile</code>. By default this is just a <code>new FirefoxProfile</code>.
    * You can mutate this object to modify the profile, or override <code>firefoxProfile</code>.
    * </p>
    */
+  @deprecated("Use firefoxOptions instead", "3.1.0")
   val firefoxProfile = new FirefoxProfile()
+
+  /**
+   * The <code>FirefoxOptions</code> passed to the constructor of the <code>FirefoxDriver</code> returned by <code>webDriver</code>.
+   *
+   * <p>
+   * The <code>FirefoxDriver</code> uses the <code>FirefoxOptions</code> defined as <code>firefoxOptions</code>. By default this is just a <code>new FirefoxOptions</code>.
+   * You can mutate this object to modify the profile, or override <code>firefoxProfile</code>.
+   * </p>
+   */
+  val firefoxOptions = new FirefoxOptions().setProfile(firefoxProfile)
 
   /**
    * <code>WebBrowser</code> subtrait that defines an implicit <code>WebDriver</code> for Firefox (an <code>org.openqa.selenium.firefox.FirefoxDriver</code>), with a default
@@ -4648,7 +4660,7 @@ trait Firefox extends WebBrowser with Driver with ScreenshotCapturer {
    * You can mutate this object to modify the profile, or override <code>firefoxProfile</code>.
    * </p>
    */
-  implicit val webDriver: WebDriver = new FirefoxDriver(firefoxProfile)
+  implicit val webDriver: WebDriver = new FirefoxDriver(firefoxOptions)
 
   /**
    * Captures a screenshot and saves it as a file in the specified directory.

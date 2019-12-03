@@ -22,7 +22,6 @@ import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.firefox.FirefoxDriver
-import org.openqa.selenium.firefox.FirefoxProfile
 import org.openqa.selenium.htmlunit.HtmlUnitDriver
 import org.openqa.selenium.ie.InternetExplorerDriver
 import org.openqa.selenium.safari.SafariDriver
@@ -36,6 +35,7 @@ import org.scalatest.time.Span
 import org.scalatest.time.SpanSugar
 import scala.reflect.ClassTag
 import org.scalactic.source.Position.here
+import org.openqa.selenium.firefox.FirefoxOptions
 
 trait InputFieldBehaviour extends JettySpec with matchers.should.Matchers with SpanSugar with WebBrowser with HtmlUnit {
   def inputField[T <: ValueElement](file: String, fn: (String) => T, typeDescription: String, description: String, value1: String, value2: String, lineNumber: Int): Unit = {
@@ -1344,7 +1344,7 @@ class WebBrowserSpec extends JettySpec with matchers.should.Matchers with SpanSu
      */
     ignore("isScreenshotSupported should return true for FirefoxDriver") {
       val driver = try {
-        new FirefoxDriver(new FirefoxProfile())
+        new FirefoxDriver(new FirefoxOptions())
       }
       catch { case e: Throwable => cancel(e) }
       try isScreenshotSupported(driver) should be (true)
