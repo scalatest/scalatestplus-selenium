@@ -23,6 +23,7 @@ developers := List(
   )
 )
 
+scalaVersion := "2.13.1"
 crossScalaVersions := List("2.10.7", "2.11.12", "2.12.10", "2.13.1")
 
 libraryDependencies ++= Seq(
@@ -65,7 +66,7 @@ OsgiKeys.exportPackage := Seq(
 
 OsgiKeys.importPackage := Seq(
   "org.scalatest.*",
-  "org.scalactic.*", 
+  "org.scalactic.*",
   "scala.*;version=\"$<range;[==,=+);$<replace;"+scalaBinaryVersion.value+";-;.>>\"",
   "*;resolution:=optional"
 )
