@@ -93,3 +93,13 @@ credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
 pgpSecretRing := file((Path.userHome / ".gnupg" / "secring.gpg").getAbsolutePath)
 
 pgpPassphrase := None
+
+scalacOptions ++= Seq(
+  "-deprecation",
+  "-encoding", "utf-8",
+  "-explaintypes",
+  "-feature",
+  "-unchecked",
+  "-Ywarn-dead-code",
+  "-Ywarn-unused",
+)

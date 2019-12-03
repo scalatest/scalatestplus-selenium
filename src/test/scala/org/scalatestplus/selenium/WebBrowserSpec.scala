@@ -16,9 +16,7 @@
 package org.scalatestplus.selenium
 
 import java.io.File
-import java.util.concurrent.TimeUnit
 import org.openqa.selenium.Cookie
-import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.firefox.FirefoxDriver
@@ -26,8 +24,6 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver
 import org.openqa.selenium.ie.InternetExplorerDriver
 import org.openqa.selenium.safari.SafariDriver
 import org.scalatest._
-import SharedHelpers.SilentReporter
-import org.scalatest.Suite
 import org.scalatest.exceptions.TestFailedException
 import org.scalatest.tagobjects.Slow
 import org.scalatest.time.Seconds
@@ -289,12 +285,12 @@ class WebBrowserSpec extends JettySpec with matchers.should.Matchers with SpanSu
     it("should, when a valid text area is found, return a TextArea instance") {
       go to (host + "find-textarea.html")
       val textarea1 = textArea("textarea1")
-      textarea1.text should be ("value1")
+      textarea1.text.trim should be ("value1")
     }
     it("should, when multiple matching text areas exist, return the first one") {
       go to (host + "find-textarea.html")
       val text2 = textArea("textarea2")
-      text2.text should be ("value2")
+      text2.text.trim should be ("value2")
     }
   }
 
@@ -541,14 +537,14 @@ class WebBrowserSpec extends JettySpec with matchers.should.Matchers with SpanSu
 
   describe("goBack") {
     it("should have no effect if already at oldest page") {
-      for (i <- 0 to 1000)
+      for (_ <- 0 to 1000)
         goBack()
     }
   }
 
   describe("goForward") {
     it("should have no effect if already at newest page") {
-      for (i <- 0 to 1000)
+      for (_ <- 0 to 1000)
         goForward()
     }
   }
@@ -582,7 +578,7 @@ class WebBrowserSpec extends JettySpec with matchers.should.Matchers with SpanSu
       go to (host + "find-textarea.html")
       find("textarea1") match {
         case Some(textArea: TextArea) =>
-          textArea.text should be ("value1")
+          textArea.text.trim should be ("value1")
         case other => 
           fail("Expected Some(textArea: TextArea), but got: " + other)
       }
@@ -680,7 +676,7 @@ class WebBrowserSpec extends JettySpec with matchers.should.Matchers with SpanSu
       textarea1.hasNext should be (true)
       textarea1.next match {
         case textArea: TextArea =>
-          textArea.text should be ("value1")
+          textArea.text.trim should be ("value1")
         case other =>
           fail("Expected TextArea, but got: " + other)
       }
@@ -1037,7 +1033,7 @@ class WebBrowserSpec extends JettySpec with matchers.should.Matchers with SpanSu
       go to (host + "textarea.html")
       pageTitle should be ("Text Area")
       
-      textArea("area1").value should be ("")
+      textArea("area1").value.trim should be ("")
 
       click on "area1"
       enter("area 1 - line 1\narea 1 - line 2")
@@ -1527,7 +1523,7 @@ class WebBrowserSpec extends JettySpec with matchers.should.Matchers with SpanSu
       it("should return Some(Element) when findElement method is called with valid id") {
         go to (host + "click.html")
         id("aLink").findElement match {
-          case Some(element: Element) => // ok
+          case Some(_: Element) => // ok
           case other => fail("Expected Some(element: Element), but got: " + other)
         }
       }
@@ -1579,7 +1575,7 @@ class WebBrowserSpec extends JettySpec with matchers.should.Matchers with SpanSu
       it("should return Some(Element) when findElement method is called with valid name") {
         go to (host + "click.html")
         name("aLinkName").findElement match {
-          case Some(element: Element) => // ok
+          case Some(_: Element) => // ok
           case other => fail("Expected Some(element: Element), but got: " + other)
         }
       }
@@ -1631,7 +1627,7 @@ class WebBrowserSpec extends JettySpec with matchers.should.Matchers with SpanSu
       it("should return Some(Element) when findElement method is called with valid xpath") {
         go to (host + "click.html")
         xpath("//html/body/a").findElement match {
-          case Some(element: Element) => // ok
+          case Some(_: Element) => // ok
           case other => fail("Expected Some(element: Element), but got: " + other)
         }
       }
@@ -1683,7 +1679,7 @@ class WebBrowserSpec extends JettySpec with matchers.should.Matchers with SpanSu
       it("should return Some(Element) when findElement method is called with valid className") {
         go to (host + "click.html")
         className("aClass").findElement match {
-          case Some(element: Element) => // ok
+          case Some(_: Element) => // ok
           case other => fail("Expected Some(element: Element), but got: " + other)
         }
       }
@@ -1735,7 +1731,7 @@ class WebBrowserSpec extends JettySpec with matchers.should.Matchers with SpanSu
       it("should return Some(Element) when findElement method is called with valid cssSelector") {
         go to (host + "click.html")
         cssSelector("a[id='aLink']").findElement match {
-          case Some(element: Element) => // ok
+          case Some(_: Element) => // ok
           case other => fail("Expected Some(element: Element), but got: " + other)
         }
       }
@@ -1787,7 +1783,7 @@ class WebBrowserSpec extends JettySpec with matchers.should.Matchers with SpanSu
       it("should return Some(Element) when findElement method is called with valid linkText") {
         go to (host + "click.html")
         linkText("Test Click").findElement match {
-          case Some(element: Element) => // ok
+          case Some(_: Element) => // ok
           case other => fail("Expected Some(element: Element), but got: " + other)
         }
       }
@@ -1839,7 +1835,7 @@ class WebBrowserSpec extends JettySpec with matchers.should.Matchers with SpanSu
       it("should return Some(Element) when findElement method is called with valid partialLinkText") {
         go to (host + "click.html")
         partialLinkText("Click").findElement match {
-          case Some(element: Element) => // ok
+          case Some(_: Element) => // ok
           case other => fail("Expected Some(element: Element), but got: " + other)
         }
       }
@@ -1891,7 +1887,7 @@ class WebBrowserSpec extends JettySpec with matchers.should.Matchers with SpanSu
       it("should return Some(Element) when findElement method is called with valid tagname") {
         go to (host + "click.html")
         tagName("a").findElement match {
-          case Some(element: Element) => // ok
+          case Some(_: Element) => // ok
           case other => fail("Expected Some(element: Element), but got: " + other)
         }
       }
@@ -1988,11 +1984,11 @@ class WebBrowserSpec extends JettySpec with matchers.should.Matchers with SpanSu
       val examples: TableFor1[WebBrowser with Driver] = {
         val availableDrivers: List[WebBrowser with Driver] =
         List(
-          try List(Chrome) catch { case e: Throwable => List.empty[WebBrowser with Driver] },
-          try List(Firefox) catch { case e: Throwable => List.empty[WebBrowser with Driver] },
+          try List(Chrome) catch { case _: Throwable => List.empty[WebBrowser with Driver] },
+          try List(Firefox) catch { case _: Throwable => List.empty[WebBrowser with Driver] },
           List(HtmlUnit),
-          try List(InternetExplorer) catch { case e: Throwable => List.empty[WebBrowser with Driver] },
-          try List(Safari) catch { case e: Throwable => List.empty[WebBrowser with Driver] }
+          try List(InternetExplorer) catch { case _: Throwable => List.empty[WebBrowser with Driver] },
+          try List(Safari) catch { case _: Throwable => List.empty[WebBrowser with Driver] }
         ).flatten
         Table("web browser", availableDrivers: _*)
       }
@@ -2001,7 +1997,6 @@ class WebBrowserSpec extends JettySpec with matchers.should.Matchers with SpanSu
   }
   describe("Page trait") {
     it("should be independent from WebBrowser trait") {
-      val code =
       """
       class HomePage extends Page {
         val url = "localhost:9000/index.html"

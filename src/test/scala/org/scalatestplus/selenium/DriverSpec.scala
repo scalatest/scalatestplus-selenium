@@ -34,8 +34,6 @@ class DriverSpec extends funspec.AnyFunSpec {
     }
 
     class GoogleSearchSpecWithChrome extends GoogleSearchSpec with Chrome
-    class GoogleSearchSpecWithSafari extends GoogleSearchSpec with Safari
-    class GoogleSearchSpecWithInternetExplorer extends GoogleSearchSpec with InternetExplorer
     class GoogleSearchSpecWithFirefox extends GoogleSearchSpec with Firefox
 
     it("should work with Chrome", Slow) {

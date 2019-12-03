@@ -25,13 +25,11 @@ import org.openqa.selenium.By
 import org.openqa.selenium.WebElement
 import java.util.concurrent.TimeUnit
 
-import scala.collection.mutable.Buffer
 import scala.collection.JavaConverters._
 import org.openqa.selenium.Cookie
 import java.util.Date
 
 import org.scalatest.time.Span
-import org.scalatest.time.Milliseconds
 import org.openqa.selenium.TakesScreenshot
 import org.openqa.selenium.OutputType
 import java.io.File
@@ -43,10 +41,9 @@ import org.openqa.selenium.support.ui.Select
 import org.scalatest.exceptions.TestFailedException
 import org.scalatest.exceptions.StackDepthException
 import org.openqa.selenium.JavascriptExecutor
-import org.scalatest.time.Nanosecond
-import org.scalatest.Resources
 import org.scalactic.source
 import org.openqa.selenium.firefox.FirefoxOptions
+import java.io.Closeable
 
 /**
  * Trait that provides a domain specific language (DSL) for writing browser-based tests using <a href="http://seleniumhq.org">Selenium</a>.  
@@ -1578,7 +1575,7 @@ trait WebBrowser {
         case e: org.openqa.selenium.NoSuchFrameException => 
           throw new TestFailedException(
                      (_: StackDepthException) => Some("Frame at index '" + index + "' not found."),
-                     None,
+                     Option(e),
                      pos
                    )
       }
@@ -1612,7 +1609,7 @@ trait WebBrowser {
         case e: org.openqa.selenium.NoSuchFrameException =>
           throw new TestFailedException(
                      (_: StackDepthException) => Some("Frame with name or ID '" + nameOrId + "' not found."),
-                     None,
+                     Option(e),
                      pos
                    )
       }
@@ -1637,7 +1634,7 @@ trait WebBrowser {
         case e: org.openqa.selenium.NoSuchFrameException => 
           throw new TestFailedException(
                      (_: StackDepthException) => Some("Frame element '" + webElement + "' not found."),
-                     None,
+                     Option(e),
                      pos
                    )
       }
@@ -1662,7 +1659,7 @@ trait WebBrowser {
         case e: org.openqa.selenium.NoSuchFrameException => 
           throw new TestFailedException(
                      (_: StackDepthException) => Some("Frame element '" + element + "' not found."),
-                     None,
+                     Option(e),
                      pos
                    )
       }
@@ -1696,7 +1693,7 @@ trait WebBrowser {
         case e: org.openqa.selenium.NoSuchWindowException => 
           throw new TestFailedException(
                      (_: StackDepthException) => Some("Window with nameOrHandle '" + nameOrHandle + "' not found."),
-                     None,
+                     Option(e),
                      pos
                    )
       }
@@ -2850,7 +2847,7 @@ trait WebBrowser {
         Some(createTypedElement(driver.findElement(by), pos))
       }
       catch {
-        case e: org.openqa.selenium.NoSuchElementException => None
+        case _: org.openqa.selenium.NoSuchElementException => None
       }
 
     /**
@@ -4300,6 +4297,22 @@ trait WebBrowser {
    * </pre>
    */
   object capture {
+
+    private def copy(source: File, destination: File): Unit = {
+
+      def close(closeable: Closeable): Unit = if (closeable != null) closeable.close()
+
+      var outStream: FileOutputStream = null
+      var inputStream: FileInputStream = null
+      try {
+        inputStream = new FileInputStream(source)
+        outStream = new FileOutputStream(destination)
+        outStream.getChannel().transferFrom(inputStream.getChannel(), 0, Long.MaxValue)
+      } finally {
+        close(inputStream)
+        close(outStream)
+      }
+    }
     
     /**
      * Capture screenshot and save it as the specified name (if file name does not end with .png, it will be extended automatically) in capture directory, 
@@ -4312,8 +4325,7 @@ trait WebBrowser {
         case takesScreenshot: TakesScreenshot => 
           val tmpFile = takesScreenshot.getScreenshotAs(OutputType.FILE)
           val outFile = new File(targetDir, if (fileName.toLowerCase.endsWith(".png")) fileName else fileName + ".png")
-          new FileOutputStream(outFile).getChannel.transferFrom(
-            new FileInputStream(tmpFile).getChannel, 0, Long.MaxValue)
+          copy(tmpFile, outFile)
         case _ =>
           throw new UnsupportedOperationException("Screen capture is not support by " + driver.getClass.getName)
       }
@@ -4329,11 +4341,9 @@ trait WebBrowser {
         case takesScreenshot: TakesScreenshot =>
           val tmpFile = takesScreenshot.getScreenshotAs(OutputType.FILE)
           val dir = new File(dirName)
-          if (!dir.exists)
-            dir.mkdirs()
+          if (!dir.exists) dir.mkdirs()
           val outFile = new File(dir, if (tmpFile.getName.toLowerCase.endsWith(".png")) "ScalaTest-" + tmpFile.getName else "ScalaTest-" + tmpFile.getName + ".png")
-          new FileOutputStream(outFile).getChannel.transferFrom(
-            new FileInputStream(tmpFile).getChannel, 0, Long.MaxValue)
+          copy(tmpFile, outFile)
         case _ =>
           throw new UnsupportedOperationException("Screen capture is not support by " + driver.getClass.getName)
       }
@@ -4349,8 +4359,7 @@ trait WebBrowser {
           val tmpFile = takesScreenshot.getScreenshotAs(OutputType.FILE)
           val fileName = tmpFile.getName
           val outFile = new File(targetDir, if (fileName.toLowerCase.endsWith(".png")) fileName else fileName + ".png")
-          new FileOutputStream(outFile).getChannel.transferFrom(
-            new FileInputStream(tmpFile).getChannel, 0, Long.MaxValue)
+          copy(tmpFile, outFile)
           outFile
         case _ =>
           throw new UnsupportedOperationException("Screen capture is not support by " + driver.getClass.getName)

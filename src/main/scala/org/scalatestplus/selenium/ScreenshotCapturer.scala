@@ -24,5 +24,5 @@ private[selenium] trait ScreenshotCapturer {
   /**
    * Captures a screenshot and saves it as a file in the specified directory.
    */
-  def captureScreenshot(directory: String)
+  def captureScreenshot(directory: String): Unit
 }
