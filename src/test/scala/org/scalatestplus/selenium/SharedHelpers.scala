@@ -17,16 +17,6 @@ package org.scalatestplus.selenium
 
 import org.scalatest.{Assertions, Reporter}
 import org.scalatest.events._
-import java.io.File
-import org.scalatest.exceptions.StackDepthException
-import scala.annotation.tailrec
-import scala.collection.GenMap
-import scala.collection.GenTraversable
-import scala.collection.SortedMap
-import scala.collection.SortedSet
-import java.util.concurrent.Executors
-import org.scalactic.Prettifier
-import org.scalactic.ArrayHelper.deep
 
 object SharedHelpers extends Assertions {
 
@@ -42,7 +32,7 @@ object SharedHelpers extends Assertions {
     def testSucceededEventsReceived: List[TestSucceeded] = {
       synchronized {
         eventsReceived filter {
-          case event: TestSucceeded => true
+          case _: TestSucceeded => true
           case _ => false
         } map {
           case event: TestSucceeded => event
@@ -53,7 +43,7 @@ object SharedHelpers extends Assertions {
     def testStartingEventsReceived: List[TestStarting] = {
       synchronized {
         eventsReceived filter {
-          case event: TestStarting => true
+          case _: TestStarting => true
           case _ => false
         } map {
           case event: TestStarting => event
@@ -66,7 +56,7 @@ object SharedHelpers extends Assertions {
     def infoProvidedEventsReceived: List[InfoProvided] = {
       synchronized {
         eventsReceived filter {
-          case event: InfoProvided => true
+          case _: InfoProvided => true
           case _ => false
         } map {
           case event: InfoProvided => event
@@ -77,7 +67,7 @@ object SharedHelpers extends Assertions {
     def noteProvidedEventsReceived: List[NoteProvided] = {
       synchronized {
         eventsReceived filter {
-          case event: NoteProvided => true
+          case _: NoteProvided => true
           case _ => false
         } map {
           case event: NoteProvided => event
@@ -88,7 +78,7 @@ object SharedHelpers extends Assertions {
     def alertProvidedEventsReceived: List[AlertProvided] = {
       synchronized {
         eventsReceived filter {
-          case event: AlertProvided => true
+          case _: AlertProvided => true
           case _ => false
         } map {
           case event: AlertProvided => event
@@ -99,7 +89,7 @@ object SharedHelpers extends Assertions {
     def markupProvidedEventsReceived: List[MarkupProvided] = {
       synchronized {
         eventsReceived filter {
-          case event: MarkupProvided => true
+          case _: MarkupProvided => true
           case _ => false
         } map {
           case event: MarkupProvided => event
@@ -110,7 +100,7 @@ object SharedHelpers extends Assertions {
     def scopeOpenedEventsReceived: List[ScopeOpened] = {
       synchronized {
         eventsReceived filter {
-          case event: ScopeOpened => true
+          case _: ScopeOpened => true
           case _ => false
         } map {
           case event: ScopeOpened => event
@@ -121,7 +111,7 @@ object SharedHelpers extends Assertions {
     def scopeClosedEventsReceived: List[ScopeClosed] = {
       synchronized {
         eventsReceived filter {
-          case event: ScopeClosed => true
+          case _: ScopeClosed => true
           case _ => false
         } map {
           case event: ScopeClosed => event
@@ -132,7 +122,7 @@ object SharedHelpers extends Assertions {
     def scopePendingEventsReceived: List[ScopePending] = {
       synchronized {
         eventsReceived filter {
-          case event: ScopePending => true
+          case _: ScopePending => true
           case _ => false
         } map {
           case event: ScopePending => event
@@ -143,7 +133,7 @@ object SharedHelpers extends Assertions {
     def testPendingEventsReceived: List[TestPending] = {
       synchronized {
         eventsReceived filter {
-          case event: TestPending => true
+          case _: TestPending => true
           case _ => false
         } map {
           case event: TestPending => event
@@ -154,7 +144,7 @@ object SharedHelpers extends Assertions {
     def testCanceledEventsReceived: List[TestCanceled] = {
       synchronized {
         eventsReceived filter {
-          case event: TestCanceled => true
+          case _: TestCanceled => true
           case _ => false
         } map {
           case event: TestCanceled => event
@@ -165,7 +155,7 @@ object SharedHelpers extends Assertions {
     def testFailedEventsReceived: List[TestFailed] = {
       synchronized {
         eventsReceived filter {
-          case event: TestFailed => true
+          case _: TestFailed => true
           case _ => false
         } map {
           case event: TestFailed => event
@@ -176,7 +166,7 @@ object SharedHelpers extends Assertions {
     def testIgnoredEventsReceived: List[TestIgnored] = {
       synchronized {
         eventsReceived filter {
-          case event: TestIgnored => true
+          case _: TestIgnored => true
           case _ => false
         } map {
           case event: TestIgnored => event
@@ -187,7 +177,7 @@ object SharedHelpers extends Assertions {
     def suiteStartingEventsReceived: List[SuiteStarting] = {
       synchronized {
         eventsReceived filter {
-          case event: SuiteStarting => true
+          case _: SuiteStarting => true
           case _ => false
         } map {
           case event: SuiteStarting => event
@@ -198,7 +188,7 @@ object SharedHelpers extends Assertions {
     def suiteCompletedEventsReceived: List[SuiteCompleted] = {
       synchronized {
         eventsReceived filter {
-          case event: SuiteCompleted => true
+          case _: SuiteCompleted => true
           case _ => false
         } map {
           case event: SuiteCompleted => event
@@ -209,7 +199,7 @@ object SharedHelpers extends Assertions {
     def suiteAbortedEventsReceived: List[SuiteAborted] = {
       synchronized {
         eventsReceived filter {
-          case event: SuiteAborted => true
+          case _: SuiteAborted => true
           case _ => false
         } map {
           case event: SuiteAborted => event
