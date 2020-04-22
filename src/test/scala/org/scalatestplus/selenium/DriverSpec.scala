@@ -2,7 +2,7 @@ package org.scalatestplus.selenium
 
 import org.scalatest._
 import SharedHelpers.EventRecordingReporter
-import org.openqa.selenium.firefox.{FirefoxDriver, FirefoxProfile}
+import org.openqa.selenium.firefox.{FirefoxDriver, FirefoxOptions}
 import org.openqa.selenium.safari.SafariDriver
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.ie.InternetExplorerDriver
@@ -34,8 +34,6 @@ class DriverSpec extends funspec.AnyFunSpec {
     }
 
     class GoogleSearchSpecWithChrome extends GoogleSearchSpec with Chrome
-    class GoogleSearchSpecWithSafari extends GoogleSearchSpec with Safari
-    class GoogleSearchSpecWithInternetExplorer extends GoogleSearchSpec with InternetExplorer
     class GoogleSearchSpecWithFirefox extends GoogleSearchSpec with Firefox
 
     it("should work with Chrome", Slow) {
@@ -60,7 +58,7 @@ class DriverSpec extends funspec.AnyFunSpec {
 
     it("should work with Firefox", Slow) {
       // Cancel when Firefox is not available
-      try new FirefoxDriver(new FirefoxProfile) catch { case e: Throwable => cancel(e) }
+      try new FirefoxDriver(new FirefoxOptions) catch { case e: Throwable => cancel(e) }
       val s = new GoogleSearchSpecWithFirefox
       val rep = new EventRecordingReporter
       s.run(None, Args(reporter = rep))
