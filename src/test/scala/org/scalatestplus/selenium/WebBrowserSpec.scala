@@ -16,19 +16,14 @@
 package org.scalatestplus.selenium
 
 import java.io.File
-import java.util.concurrent.TimeUnit
 import org.openqa.selenium.Cookie
-import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.firefox.FirefoxDriver
-import org.openqa.selenium.firefox.FirefoxProfile
 import org.openqa.selenium.htmlunit.HtmlUnitDriver
 import org.openqa.selenium.ie.InternetExplorerDriver
 import org.openqa.selenium.safari.SafariDriver
 import org.scalatest._
-import SharedHelpers.SilentReporter
-import org.scalatest.Suite
 import org.scalatest.exceptions.TestFailedException
 import org.scalatest.tagobjects.Slow
 import org.scalatest.time.Seconds
@@ -36,6 +31,7 @@ import org.scalatest.time.Span
 import org.scalatest.time.SpanSugar
 import scala.reflect.ClassTag
 import org.scalactic.source.Position.here
+import org.openqa.selenium.firefox.FirefoxOptions
 
 trait InputFieldBehaviour extends JettySpec with matchers.should.Matchers with SpanSugar with WebBrowser with HtmlUnit {
   def inputField[T <: ValueElement](file: String, fn: (String) => T, typeDescription: String, description: String, value1: String, value2: String, lineNumber: Int): Unit = {
@@ -94,27 +90,27 @@ trait InputFieldBehaviour extends JettySpec with matchers.should.Matchers with S
     }
   }
 
-  def valueField[T <: ValueElement](file: String, fn: (String) => T, typeDescription: String, description: String, value1: String, value2: String): Unit = {
+  def valueField[T <: ValueElement](file: String, fn: (String) => T, typeDescription: String, description: String, defaultValue: String, value1: String, value2: String): Unit = {
     it("should get and set " + description + " field value correctly.") {
       go to (host + file)
       pageTitle should be (typeDescription)
 
-      fn("secret1").value should be ("")                   
+      fn("secret1").value should be (defaultValue)
 
-      fn("secret1").attribute("value") should be (Some(""))
+      fn("secret1").attribute("value") should be (Some(defaultValue))
       fn("secret1").value = value1
       fn("secret1").value should be (value1)
       fn("secret1").attribute("value") should be (Some(value1))
 
-      fn("secret2").value should be ("")
-      fn("secret2").attribute("value") should be (Some(""))
+      fn("secret2").value should be (defaultValue)
+      fn("secret2").attribute("value") should be (Some(defaultValue))
       fn("secret2").value = value2
       fn("secret2").value should be (value2)
       fn("secret2").attribute("value") should be (Some(value2))
     }
   }
 
-  def clearField[T <: ValueElement](file: String, fn: (String) => T, typeDescription: String, description: String, value1: String): Unit = {
+  def clearField[T <: ValueElement](file: String, fn: (String) => T, typeDescription: String, description: String, defaultValue: String, value1: String): Unit = {
     it("should clear a " + description + " field.") {
       go to (host + file)
       pageTitle should be (typeDescription)
@@ -123,7 +119,7 @@ trait InputFieldBehaviour extends JettySpec with matchers.should.Matchers with S
       fn("secret1").value should be (value1)
 
       fn("secret1").clear()
-      fn("secret1").value should be ("")                   
+      fn("secret1").value should be (defaultValue)
 
       fn("secret1").value = value1                     
       fn("secret1").value should be (value1)
@@ -246,7 +242,7 @@ class WebBrowserSpec extends JettySpec with matchers.should.Matchers with SpanSu
   }
 
   describe("rangeField") {
-    it should behave like inputField[RangeField]("find-rangefield.html", rangeField _, "RangeField", "range", "1.2", "3", here.lineNumber)
+    it should behave like inputField[RangeField]("find-rangefield.html", rangeField _, "RangeField", "range", "12", "3", here.lineNumber)
   }
 
   describe("searchField") {
@@ -289,12 +285,12 @@ class WebBrowserSpec extends JettySpec with matchers.should.Matchers with SpanSu
     it("should, when a valid text area is found, return a TextArea instance") {
       go to (host + "find-textarea.html")
       val textarea1 = textArea("textarea1")
-      textarea1.text should be ("value1")
+      textarea1.text.trim should be ("value1")
     }
     it("should, when multiple matching text areas exist, return the first one") {
       go to (host + "find-textarea.html")
       val text2 = textArea("textarea2")
-      text2.text should be ("value2")
+      text2.text.trim should be ("value2")
     }
   }
 
@@ -541,14 +537,14 @@ class WebBrowserSpec extends JettySpec with matchers.should.Matchers with SpanSu
 
   describe("goBack") {
     it("should have no effect if already at oldest page") {
-      for (i <- 0 to 1000)
+      for (_ <- 0 to 1000)
         goBack()
     }
   }
 
   describe("goForward") {
     it("should have no effect if already at newest page") {
-      for (i <- 0 to 1000)
+      for (_ <- 0 to 1000)
         goForward()
     }
   }
@@ -582,7 +578,7 @@ class WebBrowserSpec extends JettySpec with matchers.should.Matchers with SpanSu
       go to (host + "find-textarea.html")
       find("textarea1") match {
         case Some(textArea: TextArea) =>
-          textArea.text should be ("value1")
+          textArea.text.trim should be ("value1")
         case other => 
           fail("Expected Some(textArea: TextArea), but got: " + other)
       }
@@ -604,7 +600,7 @@ class WebBrowserSpec extends JettySpec with matchers.should.Matchers with SpanSu
     it should behave like findField[DateTimeLocalField]("find-datetimelocalfield.html", "DateTimeLocalField", "datetime-local", "2003-12-31T23:59:60Z")
     it should behave like findField[MonthField]("find-monthfield.html", "MonthField", "month", "2001-02")
     it should behave like findField[NumberField]("find-numberfield.html", "NumberField", "number", "1.2")
-    it should behave like findField[RangeField]("find-rangefield.html", "RangeField", "range", "1.2")
+    it should behave like findField[RangeField]("find-rangefield.html", "RangeField", "range", "12")
     it should behave like findField[SearchField]("find-searchfield.html", "SearchField", "search", "search1")
     it should behave like findField[TelField]("find-telfield.html", "TelField", "tel", "tel1")
     it should behave like findField[TimeField]("find-timefield.html", "TimeField", "time", "20:20:20")
@@ -680,7 +676,7 @@ class WebBrowserSpec extends JettySpec with matchers.should.Matchers with SpanSu
       textarea1.hasNext should be (true)
       textarea1.next match {
         case textArea: TextArea =>
-          textArea.text should be ("value1")
+          textArea.text.trim should be ("value1")
         case other =>
           fail("Expected TextArea, but got: " + other)
       }
@@ -704,7 +700,7 @@ class WebBrowserSpec extends JettySpec with matchers.should.Matchers with SpanSu
     it should behave like iteratorField[DateTimeLocalField]("find-datetimelocalfield.html", "DateTimeLocalField", "datetime-local", "2003-12-31T23:59:60Z")
     it should behave like iteratorField[MonthField]("find-monthfield.html", "MonthField", "month", "2001-02")
     it should behave like iteratorField[NumberField]("find-numberfield.html", "NumberField", "number", "1.2")
-    it should behave like iteratorField[RangeField]("find-rangefield.html", "RangeField", "range", "1.2")
+    it should behave like iteratorField[RangeField]("find-rangefield.html", "RangeField", "range", "12")
     it should behave like iteratorField[SearchField]("find-searchfield.html", "SearchField", "search", "search1")
     it should behave like iteratorField[TelField]("find-telfield.html", "TelField", "tel", "tel1")
     it should behave like iteratorField[TimeField]("find-timefield.html", "TimeField", "time", "20:20:20")
@@ -843,19 +839,19 @@ class WebBrowserSpec extends JettySpec with matchers.should.Matchers with SpanSu
       pwdField("secret2").attribute("value") should be (Some("value 2"))
     }
 
-    it should behave like valueField[EmailField]("emailfield.html", emailField _, "EmailField", "email", "value 1", "value 2")
-    it should behave like valueField[ColorField]("colorfield.html", colorField _, "ColorField", "color", "#676767", "#0f0f0f")
-    it should behave like valueField[DateField]("datefield.html", dateField _, "DateField", "date", "2003-02-01", "2005-04-03")
-    it should behave like valueField[DateTimeField]("datetimefield.html", dateTimeField _, "DateTimeField", "datetime", "1990-12-31T23:59:60Z", "1992-12-31T23:59:60Z")
-    it should behave like valueField[DateTimeLocalField]("datetimelocalfield.html", dateTimeLocalField _, "DateTimeLocalField", "datetime-local", "1990-12-31T23:59:60Z", "1992-12-31T23:59:60Z")
-    it should behave like valueField[MonthField]("monthfield.html", monthField _, "MonthField", "month", "2003-04", "2005-06")
-    it should behave like valueField[NumberField]("numberfield.html", numberField _, "NumberField", "number", "1.2", "3")
-    it should behave like valueField[RangeField]("rangefield.html", rangeField _, "RangeField", "range", "1.2", "3")
-    it should behave like valueField[SearchField]("searchfield.html", searchField _, "SearchField", "search", "value 1", "value 2")
-    it should behave like valueField[TelField]("telfield.html", telField _, "TelField", "tel", "value 1", "value 2")
-    it should behave like valueField[TimeField]("timefield.html", timeField _, "TimeField", "time", "20:20:20", "22:22:22")
-    it should behave like valueField[UrlField]("urlfield.html", urlField _, "UrlField", "url", "http://1.bar.com", "http://2.bar.com")
-    it should behave like valueField[WeekField]("weekfield.html", weekField _, "WeekField", "week", "1996-W16", "1997-W17")
+    it should behave like valueField[EmailField]("emailfield.html", emailField _, "EmailField", "email", "", "value 1", "value 2")
+    it should behave like valueField[ColorField]("colorfield.html", colorField _, "ColorField", "color", "", "#676767", "#0f0f0f")
+    it should behave like valueField[DateField]("datefield.html", dateField _, "DateField", "date", "", "2003-02-01", "2005-04-03")
+    it should behave like valueField[DateTimeField]("datetimefield.html", dateTimeField _, "DateTimeField", "datetime", "", "1990-12-31T23:59:60Z", "1992-12-31T23:59:60Z")
+    it should behave like valueField[DateTimeLocalField]("datetimelocalfield.html", dateTimeLocalField _, "DateTimeLocalField", "datetime-local", "", "1990-12-31T23:59", "1992-12-31T23:59")
+    it should behave like valueField[MonthField]("monthfield.html", monthField _, "MonthField", "month", "", "2003-04", "2005-06")
+    it should behave like valueField[NumberField]("numberfield.html", numberField _, "NumberField", "number", "", "1.2", "3")
+    it should behave like valueField[RangeField]("rangefield.html", rangeField _, "RangeField", "range", "50", "12", "3")
+    it should behave like valueField[SearchField]("searchfield.html", searchField _, "SearchField", "search", "", "value 1", "value 2")
+    it should behave like valueField[TelField]("telfield.html", telField _, "TelField", "tel", "", "value 1", "value 2")
+    it should behave like valueField[TimeField]("timefield.html", timeField _, "TimeField", "time", "", "20:20", "22:22")
+    it should behave like valueField[UrlField]("urlfield.html", urlField _, "UrlField", "url", "", "http://1.bar.com", "http://2.bar.com")
+    it should behave like valueField[WeekField]("weekfield.html", weekField _, "WeekField", "week", "", "1996-W16", "1997-W17")
 
     it("should allow text to be entered in the active element if it is a text field.") {
 
@@ -1019,25 +1015,25 @@ class WebBrowserSpec extends JettySpec with matchers.should.Matchers with SpanSu
     }
     
 
-    it should behave like clearField[EmailField]("emailfield.html", emailField _, "EmailField", "email", "value 1")
-    it should behave like clearField[ColorField]("colorfield.html", colorField _, "ColorField", "color", "#656565")
-    it should behave like clearField[DateField]("datefield.html", dateField _, "DateField", "date", "2013-06-07")
-    it should behave like clearField[DateTimeField]("datetimefield.html", dateTimeField _, "DateTimeField", "datetime", "1990-12-31T23:59:60Z")
-    it should behave like clearField[DateTimeLocalField]("datetimelocalfield.html", dateTimeLocalField _, "DateTimeLocalField", "datetime-local", "1990-12-31T23:59:60Z")
-    it should behave like clearField[MonthField]("monthfield.html", monthField _, "MonthField", "month", "2003-04")
-    it should behave like clearField[NumberField]("numberfield.html", numberField _, "NumberField", "number", "3")
-    it should behave like clearField[RangeField]("rangefield.html", rangeField _, "RangeField", "range", "3")
-    it should behave like clearField[SearchField]("searchfield.html", searchField _, "SearchField", "search", "value 1")
-    it should behave like clearField[TelField]("telfield.html", telField _, "TelField", "tel", "value 1")
-    it should behave like clearField[TimeField]("timefield.html", timeField _, "TimeField", "time", "20:20:20")
-    it should behave like clearField[UrlField]("urlfield.html", urlField _, "UrlField", "url", "http://1.bar.com")
-    it should behave like clearField[WeekField]("weekfield.html", weekField _, "WeekField", "week", "1996-W16")
+    it should behave like clearField[EmailField]("emailfield.html", emailField _, "EmailField", "email", "", "value 1")
+    it should behave like clearField[ColorField]("colorfield.html", colorField _, "ColorField", "color", "#000000", "#656565")
+    it should behave like clearField[DateField]("datefield.html", dateField _, "DateField", "date", "", "2013-06-07")
+    it should behave like clearField[DateTimeField]("datetimefield.html", dateTimeField _, "DateTimeField", "datetime", "", "1990-12-31T23:59:60Z")
+    it should behave like clearField[DateTimeLocalField]("datetimelocalfield.html", dateTimeLocalField _, "DateTimeLocalField", "datetime-local", "", "1990-12-31T23:59")
+    it should behave like clearField[MonthField]("monthfield.html", monthField _, "MonthField", "month", "", "2003-04")
+    it should behave like clearField[NumberField]("numberfield.html", numberField _, "NumberField", "number", "", "3")
+    it should behave like clearField[RangeField]("rangefield.html", rangeField _, "RangeField", "range", "50", "3")
+    it should behave like clearField[SearchField]("searchfield.html", searchField _, "SearchField", "search", "", "value 1")
+    it should behave like clearField[TelField]("telfield.html", telField _, "TelField", "tel", "", "value 1")
+    it should behave like clearField[TimeField]("timefield.html", timeField _, "TimeField", "time", "", "20:20")
+    it should behave like clearField[UrlField]("urlfield.html", urlField _, "UrlField", "url", "", "http://1.bar.com")
+    it should behave like clearField[WeekField]("weekfield.html", weekField _, "WeekField", "week", "", "1996-W16")
 
     it("should allow text to be entered in the active element if it is a text area.") {
       go to (host + "textarea.html")
       pageTitle should be ("Text Area")
       
-      textArea("area1").value should be ("")
+      textArea("area1").value.trim should be ("")
 
       click on "area1"
       enter("area 1 - line 1\narea 1 - line 2")
@@ -1344,7 +1340,7 @@ class WebBrowserSpec extends JettySpec with matchers.should.Matchers with SpanSu
      */
     ignore("isScreenshotSupported should return true for FirefoxDriver") {
       val driver = try {
-        new FirefoxDriver(new FirefoxProfile())
+        new FirefoxDriver(new FirefoxOptions())
       }
       catch { case e: Throwable => cancel(e) }
       try isScreenshotSupported(driver) should be (true)
@@ -1527,7 +1523,7 @@ class WebBrowserSpec extends JettySpec with matchers.should.Matchers with SpanSu
       it("should return Some(Element) when findElement method is called with valid id") {
         go to (host + "click.html")
         id("aLink").findElement match {
-          case Some(element: Element) => // ok
+          case Some(_: Element) => // ok
           case other => fail("Expected Some(element: Element), but got: " + other)
         }
       }
@@ -1579,7 +1575,7 @@ class WebBrowserSpec extends JettySpec with matchers.should.Matchers with SpanSu
       it("should return Some(Element) when findElement method is called with valid name") {
         go to (host + "click.html")
         name("aLinkName").findElement match {
-          case Some(element: Element) => // ok
+          case Some(_: Element) => // ok
           case other => fail("Expected Some(element: Element), but got: " + other)
         }
       }
@@ -1631,7 +1627,7 @@ class WebBrowserSpec extends JettySpec with matchers.should.Matchers with SpanSu
       it("should return Some(Element) when findElement method is called with valid xpath") {
         go to (host + "click.html")
         xpath("//html/body/a").findElement match {
-          case Some(element: Element) => // ok
+          case Some(_: Element) => // ok
           case other => fail("Expected Some(element: Element), but got: " + other)
         }
       }
@@ -1683,7 +1679,7 @@ class WebBrowserSpec extends JettySpec with matchers.should.Matchers with SpanSu
       it("should return Some(Element) when findElement method is called with valid className") {
         go to (host + "click.html")
         className("aClass").findElement match {
-          case Some(element: Element) => // ok
+          case Some(_: Element) => // ok
           case other => fail("Expected Some(element: Element), but got: " + other)
         }
       }
@@ -1735,7 +1731,7 @@ class WebBrowserSpec extends JettySpec with matchers.should.Matchers with SpanSu
       it("should return Some(Element) when findElement method is called with valid cssSelector") {
         go to (host + "click.html")
         cssSelector("a[id='aLink']").findElement match {
-          case Some(element: Element) => // ok
+          case Some(_: Element) => // ok
           case other => fail("Expected Some(element: Element), but got: " + other)
         }
       }
@@ -1787,7 +1783,7 @@ class WebBrowserSpec extends JettySpec with matchers.should.Matchers with SpanSu
       it("should return Some(Element) when findElement method is called with valid linkText") {
         go to (host + "click.html")
         linkText("Test Click").findElement match {
-          case Some(element: Element) => // ok
+          case Some(_: Element) => // ok
           case other => fail("Expected Some(element: Element), but got: " + other)
         }
       }
@@ -1839,7 +1835,7 @@ class WebBrowserSpec extends JettySpec with matchers.should.Matchers with SpanSu
       it("should return Some(Element) when findElement method is called with valid partialLinkText") {
         go to (host + "click.html")
         partialLinkText("Click").findElement match {
-          case Some(element: Element) => // ok
+          case Some(_: Element) => // ok
           case other => fail("Expected Some(element: Element), but got: " + other)
         }
       }
@@ -1891,7 +1887,7 @@ class WebBrowserSpec extends JettySpec with matchers.should.Matchers with SpanSu
       it("should return Some(Element) when findElement method is called with valid tagname") {
         go to (host + "click.html")
         tagName("a").findElement match {
-          case Some(element: Element) => // ok
+          case Some(_: Element) => // ok
           case other => fail("Expected Some(element: Element), but got: " + other)
         }
       }
@@ -1988,11 +1984,11 @@ class WebBrowserSpec extends JettySpec with matchers.should.Matchers with SpanSu
       val examples: TableFor1[WebBrowser with Driver] = {
         val availableDrivers: List[WebBrowser with Driver] =
         List(
-          try List(Chrome) catch { case e: Throwable => List.empty[WebBrowser with Driver] },
-          try List(Firefox) catch { case e: Throwable => List.empty[WebBrowser with Driver] },
+          try List(Chrome) catch { case _: Throwable => List.empty[WebBrowser with Driver] },
+          try List(Firefox) catch { case _: Throwable => List.empty[WebBrowser with Driver] },
           List(HtmlUnit),
-          try List(InternetExplorer) catch { case e: Throwable => List.empty[WebBrowser with Driver] },
-          try List(Safari) catch { case e: Throwable => List.empty[WebBrowser with Driver] }
+          try List(InternetExplorer) catch { case _: Throwable => List.empty[WebBrowser with Driver] },
+          try List(Safari) catch { case _: Throwable => List.empty[WebBrowser with Driver] }
         ).flatten
         Table("web browser", availableDrivers: _*)
       }
@@ -2001,7 +1997,6 @@ class WebBrowserSpec extends JettySpec with matchers.should.Matchers with SpanSu
   }
   describe("Page trait") {
     it("should be independent from WebBrowser trait") {
-      val code =
       """
       class HomePage extends Page {
         val url = "localhost:9000/index.html"

@@ -1,4 +1,4 @@
-name := "selenium-2.45"
+name := "selenium-3.141"
 
 organization := "org.scalatestplus"
 
@@ -23,11 +23,13 @@ developers := List(
   )
 )
 
+scalaVersion := "2.13.1"
 crossScalaVersions := List("2.10.7", "2.11.12", "2.12.10", "2.13.1")
 
 libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest-core" % "3.2.0-M4",
-  "org.seleniumhq.selenium" % "selenium-java" % "2.45.0", 
+  "org.seleniumhq.selenium" % "selenium-java" % "3.141.59",
+  "org.seleniumhq.selenium" % "htmlunit-driver" % "2.39.0",
   "org.scalatest" %% "scalatest-funspec" % "3.2.0-M4" % "test",
   "org.scalatest" %% "scalatest-shouldmatchers" % "3.2.0-M4" % "test",
   "org.eclipse.jetty" % "jetty-server" % "9.4.12.v20180830" % "test",
@@ -66,7 +68,7 @@ OsgiKeys.exportPackage := Seq(
 
 OsgiKeys.importPackage := Seq(
   "org.scalatest.*",
-  "org.scalactic.*", 
+  "org.scalactic.*",
   "scala.*;version=\"$<range;[==,=+);$<replace;"+scalaBinaryVersion.value+";-;.>>\"",
   "*;resolution:=optional"
 )
@@ -94,3 +96,12 @@ credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
 pgpSecretRing := file((Path.userHome / ".gnupg" / "secring.gpg").getAbsolutePath)
 
 pgpPassphrase := None
+
+scalacOptions ++= Seq(
+  "-deprecation",
+  "-encoding", "utf-8",
+  "-explaintypes",
+  "-feature",
+  "-unchecked",
+  "-Ywarn-dead-code",
+) ++ (if (scalaBinaryVersion.value == "2.10") Seq.empty else Seq("-Ywarn-unused"))
