@@ -2,7 +2,7 @@ name := "selenium-3.141"
 
 organization := "org.scalatestplus"
 
-version := "3.3.0.0-SNAP2"
+version := "3.3.0.0-SNAP3"
 
 homepage := Some(url("https://github.com/scalatest/scalatestplus-selenium"))
 
@@ -23,15 +23,15 @@ developers := List(
   )
 )
 
-scalaVersion := "2.13.1"
-crossScalaVersions := List("2.10.7", "2.11.12", "2.12.10", "2.13.1")
+scalaVersion := "2.13.2"
+crossScalaVersions := List("2.10.7", "2.11.12", "2.12.11", "2.13.2")
 
 libraryDependencies ++= Seq(
-  "org.scalatest" %% "scalatest-core" % "3.3.0-SNAP2",
+  "org.scalatest" %% "scalatest-core" % "3.3.0-SNAP3",
   "org.seleniumhq.selenium" % "selenium-java" % "3.141.59",
   "org.seleniumhq.selenium" % "htmlunit-driver" % "2.39.0",
-  "org.scalatest" %% "scalatest-funspec" % "3.3.0-SNAP2" % "test",
-  "org.scalatest" %% "scalatest-shouldmatchers" % "3.3.0-SNAP2" % "test",
+  "org.scalatest" %% "scalatest-funspec" % "3.3.0-SNAP3" % "test",
+  "org.scalatest" %% "scalatest-shouldmatchers" % "3.3.0-SNAP3" % "test",
   "org.eclipse.jetty" % "jetty-server" % "9.4.12.v20180830" % "test",
   "org.eclipse.jetty" % "jetty-webapp" % "9.4.12.v20180830" % "test"
 )
