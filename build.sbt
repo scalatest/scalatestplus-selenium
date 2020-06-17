@@ -93,11 +93,17 @@ publishArtifact in Test := false
 
 pomIncludeRepository := { _ => false }
 
+pomExtra := (
+  <scm>
+    <url>https://github.com/scalatest/scalatestplus-selenium</url>
+    <connection>scm:git:git@github.com:scalatest/scalatestplus-selenium.git</connection>
+    <developerConnection>
+      scm:git:git@github.com:scalatest/scalatestplus-selenium.git
+    </developerConnection>
+  </scm>
+)
+
 credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
-
-pgpSecretRing := file((Path.userHome / ".gnupg" / "secring.gpg").getAbsolutePath)
-
-pgpPassphrase := None
 
 scalacOptions ++= Seq(
   "-deprecation",
