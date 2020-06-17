@@ -2,7 +2,7 @@ name := "selenium-3.141"
 
 organization := "org.scalatestplus"
 
-version := "3.1.2.0"
+version := "3.1.3.0"
 
 homepage := Some(url("https://github.com/scalatest/scalatestplus-selenium"))
 
@@ -23,16 +23,18 @@ developers := List(
   )
 )
 
-scalaVersion := "2.13.1"
-crossScalaVersions := List("2.10.7", "2.11.12", "2.12.11", "2.13.2")
+scalaVersion := "2.13.3"
+crossScalaVersions := List("2.10.7", "2.11.12", "2.12.12", "2.13.3", "0.26.0-RC1")
 
 libraryDependencies ++= Seq(
-  "org.scalatest" %% "scalatest" % "3.1.2",
+  "org.scalatest" %% "scalatest" % "3.1.3",
   "org.seleniumhq.selenium" % "selenium-java" % "3.141.59",
   "org.seleniumhq.selenium" % "htmlunit-driver" % "2.39.0",
   "org.eclipse.jetty" % "jetty-server" % "9.4.12.v20180830" % Test,
   "org.eclipse.jetty" % "jetty-webapp" % "9.4.12.v20180830" % Test
 )
+
+Test / scalacOptions ++= (if (isDotty.value) Seq("-language:implicitConversions") else Nil)
 
 import scala.xml.{Node => XmlNode, NodeSeq => XmlNodeSeq, _}
 import scala.xml.transform.{RewriteRule, RuleTransformer}
