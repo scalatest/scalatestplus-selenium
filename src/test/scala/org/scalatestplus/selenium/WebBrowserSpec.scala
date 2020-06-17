@@ -33,6 +33,8 @@ import scala.reflect.ClassTag
 import org.scalactic.source.Position.here
 import org.openqa.selenium.firefox.FirefoxOptions
 
+import scala.language.postfixOps
+
 trait InputFieldBehaviour extends JettySpec with matchers.should.Matchers with SpanSugar with WebBrowser with HtmlUnit {
   def inputField[T <: ValueElement](file: String, fn: (String) => T, typeDescription: String, description: String, value1: String, value2: String, lineNumber: Int): Unit = {
     it("should throw TFE with valid stack depth if specified item not found") {

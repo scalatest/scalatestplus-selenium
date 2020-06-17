@@ -24,7 +24,7 @@ developers := List(
 )
 
 scalaVersion := "2.13.2"
-crossScalaVersions := List("2.10.7", "2.11.12", "2.12.11", "2.13.2")
+crossScalaVersions := List("2.10.7", "2.11.12", "2.12.11", "2.13.2", "0.24.0")
 
 libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest-core" % "3.2.0",
@@ -35,6 +35,8 @@ libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest-funspec" % "3.2.0" % Test, 
   "org.scalatest" %% "scalatest-shouldmatchers" % "3.2.0" % Test
 )
+
+Test / scalacOptions ++= (if (isDotty.value) Seq("-language:implicitConversions") else Nil)
 
 import scala.xml.{Node => XmlNode, NodeSeq => XmlNodeSeq, _}
 import scala.xml.transform.{RewriteRule, RuleTransformer}
