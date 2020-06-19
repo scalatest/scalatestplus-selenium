@@ -20,8 +20,8 @@ import org.eclipse.jetty.server.{NetworkConnector, Server}
 import org.eclipse.jetty.webapp.WebAppContext
 
 trait JettySpec extends funspec.AnyFunSpec {
-  
-  private val serverThread = new Thread() {
+
+  class ServerThread extends Thread {
     private val server = new Server(0)
 
     override def run(): Unit = {
@@ -37,15 +37,17 @@ trait JettySpec extends funspec.AnyFunSpec {
     }
     
     def isStarted = server.isStarted()
-    def getHost = {
+    def getHost() = {
       val conn = server.getConnectors()(0).asInstanceOf[NetworkConnector]
       "http://localhost:" + conn.getLocalPort + "/"
     }
   }
+  
+  private val serverThread = new ServerThread()
 
   import scala.language.reflectiveCalls
   
-  lazy val host = serverThread.getHost
+  lazy val host = serverThread.getHost()
 
   override def run(testName: Option[String], args: Args): Status = {
     serverThread.start()
