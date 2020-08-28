@@ -4583,7 +4583,7 @@ trait Driver { this: WebBrowser =>
    * and <code>InternetExplorer</code>.
    * </p>
    */
-  implicit val webDriver: WebDriver
+  implicit def webDriver: WebDriver
 }
 
 /**
@@ -4612,7 +4612,7 @@ trait HtmlUnit extends WebBrowser with Driver with ScreenshotCapturer {
    * webDriver.setJavascriptEnabled(false)
    * </pre>
    */
-  implicit val webDriver: HtmlUnitDriver = new HtmlUnitDriver(true)
+  implicit lazy val webDriver: HtmlUnitDriver = new HtmlUnitDriver(true)
 
   /**
    * Captures a screenshot and saves it as a file in the specified directory.
@@ -4648,7 +4648,7 @@ trait Firefox extends WebBrowser with Driver with ScreenshotCapturer {
    * </p>
    */
   @deprecated("Use firefoxOptions instead", "3.1.0")
-  val firefoxProfile = new FirefoxProfile()
+  lazy val firefoxProfile = new FirefoxProfile()
 
   /**
    * The <code>FirefoxOptions</code> passed to the constructor of the <code>FirefoxDriver</code> returned by <code>webDriver</code>.
@@ -4658,7 +4658,7 @@ trait Firefox extends WebBrowser with Driver with ScreenshotCapturer {
    * You can mutate this object to modify the profile, or override <code>firefoxProfile</code>.
    * </p>
    */
-  val firefoxOptions = new FirefoxOptions().setProfile(firefoxProfile)
+  lazy val firefoxOptions = new FirefoxOptions().setProfile(firefoxProfile)
 
   /**
    * <code>WebBrowser</code> subtrait that defines an implicit <code>WebDriver</code> for Firefox (an <code>org.openqa.selenium.firefox.FirefoxDriver</code>), with a default
@@ -4669,7 +4669,7 @@ trait Firefox extends WebBrowser with Driver with ScreenshotCapturer {
    * You can mutate this object to modify the profile, or override <code>firefoxProfile</code>.
    * </p>
    */
-  implicit val webDriver: WebDriver = new FirefoxDriver(firefoxOptions)
+  implicit lazy val webDriver: WebDriver = new FirefoxDriver(firefoxOptions)
 
   /**
    * Captures a screenshot and saves it as a file in the specified directory.
@@ -4693,7 +4693,7 @@ trait Safari extends WebBrowser with Driver with ScreenshotCapturer {
   /**
    * <code>WebBrowser</code> subtrait that defines an implicit <code>WebDriver</code> for Safari (an <code>org.openqa.selenium.safari.SafariDriver</code>).
    */
-  implicit val webDriver = new SafariDriver()
+  implicit lazy val webDriver = new SafariDriver()
 
   /**
    * Captures a screenshot and saves it as a file in the specified directory.
@@ -4717,7 +4717,7 @@ trait Chrome extends WebBrowser with Driver with ScreenshotCapturer {
   /**
    * <code>WebBrowser</code> subtrait that defines an implicit <code>WebDriver</code> for Chrome (an <code>org.openqa.selenium.chrome.ChromeDriver</code>).
    */
-  implicit val webDriver = new ChromeDriver()
+  implicit lazy val webDriver = new ChromeDriver()
 
   /**
    * Captures a screenshot and saves it as a file in the specified directory.
@@ -4741,7 +4741,7 @@ trait InternetExplorer extends WebBrowser with Driver with ScreenshotCapturer {
   /**
    * <code>WebBrowser</code> subtrait that defines an implicit <code>WebDriver</code> for Internet Explorer (an <code>org.openqa.selenium.ie.InternetExplorerDriver</code>).
    */
-  implicit val webDriver = new InternetExplorerDriver()
+  implicit lazy val webDriver = new InternetExplorerDriver()
 
   /**
    * Captures a screenshot and saves it as a file in the specified directory.
