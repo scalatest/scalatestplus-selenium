@@ -113,3 +113,5 @@ scalacOptions ++= Seq(
   "-unchecked",
   "-Ywarn-dead-code",
 ) ++ (if (scalaBinaryVersion.value == "2.10") Seq.empty else Seq("-Ywarn-unused"))
+
+scalacOptions in (Compile, doc) := Seq("-doc-title", s"ScalaTest + Selenium ${version.value}")
