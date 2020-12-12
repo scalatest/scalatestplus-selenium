@@ -1888,18 +1888,18 @@ trait WebBrowser {
      */
     def clear(): Unit = { underlying.clear() }
   }
-  
-  trait ValueElement extends Element {
-    val underlying: WebElement
 
-    def checkCorrectType(isA: (TagMeta) => Boolean, typeDescription: String)(implicit pos: source.Position): Unit = {
-      if(!isA(TagMeta(underlying)))
-        throw new TestFailedException(
+  private def checkCorrectType(underlying: WebElement, isA: (TagMeta) => Boolean, typeDescription: String)(implicit pos: source.Position): Unit = {
+    if(!isA(TagMeta(underlying)))
+      throw new TestFailedException(
                      (_: StackDepthException) => Some("Element " + underlying + " is not " + typeDescription + " field."),
                      None,
                      pos
                    )
-    }
+  }
+  
+  trait ValueElement extends Element {
+    val underlying: WebElement
 
     /**
      * Gets this field's value.
@@ -1956,7 +1956,7 @@ trait WebBrowser {
    * @throws TestFailedExeption if the passed <code>WebElement</code> does not represent a email field
    */
   final class EmailField(val underlying: WebElement)(implicit pos: source.Position) extends ValueElement {
-    checkCorrectType(isEmailField, "email")
+    checkCorrectType(underlying, isEmailField, "email")
   }
 
   /**
@@ -1975,7 +1975,7 @@ trait WebBrowser {
    * @throws TestFailedExeption if the passed <code>WebElement</code> does not represent a color field
    */
   final class ColorField(val underlying: WebElement)(implicit pos: source.Position) extends ValueElement {
-    checkCorrectType(isColorField, "color")
+    checkCorrectType(underlying, isColorField, "color")
   }
 
   /**
@@ -1994,7 +1994,7 @@ trait WebBrowser {
    * @throws TestFailedExeption if the passed <code>WebElement</code> does not represent a date field
    */
   final class DateField(val underlying: WebElement)(implicit pos: source.Position) extends ValueElement {
-    checkCorrectType(isDateField, "date")
+    checkCorrectType(underlying, isDateField, "date")
   }
 
   /**
@@ -2013,7 +2013,7 @@ trait WebBrowser {
    * @throws TestFailedExeption if the passed <code>WebElement</code> does not represent a datetime field
    */
   final class DateTimeField(val underlying: WebElement)(implicit pos: source.Position) extends ValueElement {
-    checkCorrectType(isDateTimeField, "datetime")
+    checkCorrectType(underlying, isDateTimeField, "datetime")
   }
 
   /**
@@ -2032,7 +2032,7 @@ trait WebBrowser {
    * @throws TestFailedExeption if the passed <code>WebElement</code> does not represent a datetime-local field
    */
   final class DateTimeLocalField(val underlying: WebElement)(implicit pos: source.Position) extends ValueElement {
-    checkCorrectType(isDateTimeLocalField, "datetime-local")
+    checkCorrectType(underlying, isDateTimeLocalField, "datetime-local")
   }
 
   /**
@@ -2051,7 +2051,7 @@ trait WebBrowser {
    * @throws TestFailedExeption if the passed <code>WebElement</code> does not represent a month field
    */
   final class MonthField(val underlying: WebElement)(implicit pos: source.Position) extends ValueElement {
-    checkCorrectType(isMonthField, "month")
+    checkCorrectType(underlying, isMonthField, "month")
   }
 
   /**
@@ -2070,7 +2070,7 @@ trait WebBrowser {
    * @throws TestFailedExeption if the passed <code>WebElement</code> does not represent a number field
    */
   final class NumberField(val underlying: WebElement)(implicit pos: source.Position) extends ValueElement {
-    checkCorrectType(isNumberField, "number")
+    checkCorrectType(underlying, isNumberField, "number")
   }
 
   /**
@@ -2089,7 +2089,7 @@ trait WebBrowser {
    * @throws TestFailedExeption if the passed <code>WebElement</code> does not represent a range field
    */
   final class RangeField(val underlying: WebElement)(implicit pos: source.Position) extends ValueElement {
-    checkCorrectType(isRangeField, "range")
+    checkCorrectType(underlying, isRangeField, "range")
   }
 
   /**
@@ -2108,7 +2108,7 @@ trait WebBrowser {
    * @throws TestFailedExeption if the passed <code>WebElement</code> does not represent a search field
    */
   final class SearchField(val underlying: WebElement)(implicit pos: source.Position) extends ValueElement {
-    checkCorrectType(isSearchField, "search")
+    checkCorrectType(underlying, isSearchField, "search")
   }
 
   /**
@@ -2127,7 +2127,7 @@ trait WebBrowser {
    * @throws TestFailedExeption if the passed <code>WebElement</code> does not represent a tel field
    */
   final class TelField(val underlying: WebElement)(implicit pos: source.Position) extends ValueElement {
-    checkCorrectType(isTelField, "tel")
+    checkCorrectType(underlying, isTelField, "tel")
   }
 
   /**
@@ -2146,7 +2146,7 @@ trait WebBrowser {
    * @throws TestFailedExeption if the passed <code>WebElement</code> does not represent a time field
    */
   final class TimeField(val underlying: WebElement)(implicit pos: source.Position) extends ValueElement {
-    checkCorrectType(isTimeField, "time")
+    checkCorrectType(underlying, isTimeField, "time")
   }
 
   /**
@@ -2165,7 +2165,7 @@ trait WebBrowser {
    * @throws TestFailedExeption if the passed <code>WebElement</code> does not represent a url field
    */
   final class UrlField(val underlying: WebElement)(implicit pos: source.Position) extends ValueElement {
-    checkCorrectType(isUrlField, "url")
+    checkCorrectType(underlying, isUrlField, "url")
   }
 
   /**
@@ -2184,7 +2184,7 @@ trait WebBrowser {
    * @throws TestFailedExeption if the passed <code>WebElement</code> does not represent a week field
    */
   final class WeekField(val underlying: WebElement)(implicit pos: source.Position) extends ValueElement {
-    checkCorrectType(isWeekField, "week")
+    checkCorrectType(underlying, isWeekField, "week")
   }
 
   /**

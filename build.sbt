@@ -23,8 +23,8 @@ developers := List(
   )
 )
 
-scalaVersion := "2.13.2"
-crossScalaVersions := List("2.10.7", "2.11.12", "2.12.11", "2.13.2")
+scalaVersion := "2.13.4"
+crossScalaVersions := List("2.10.7", "2.11.12", "2.12.12", "2.13.4", "3.0.0-M2")
 
 libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest-core" % "3.3.0-SNAP3",
@@ -35,6 +35,8 @@ libraryDependencies ++= Seq(
   "org.eclipse.jetty" % "jetty-server" % "9.4.12.v20180830" % "test",
   "org.eclipse.jetty" % "jetty-webapp" % "9.4.12.v20180830" % "test"
 )
+
+Test / scalacOptions ++= (if (isDotty.value) Seq("-language:implicitConversions") else Nil)
 
 import scala.xml.{Node => XmlNode, NodeSeq => XmlNodeSeq, _}
 import scala.xml.transform.{RewriteRule, RuleTransformer}
@@ -91,17 +93,39 @@ publishArtifact in Test := false
 
 pomIncludeRepository := { _ => false }
 
+pomExtra := (
+  <scm>
+    <url>https://github.com/scalatest/scalatestplus-selenium</url>
+    <connection>scm:git:git@github.com:scalatest/scalatestplus-selenium.git</connection>
+    <developerConnection>
+      scm:git:git@github.com:scalatest/scalatestplus-selenium.git
+    </developerConnection>
+  </scm>
+)
+
 credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
 
-pgpSecretRing := file((Path.userHome / ".gnupg" / "secring.gpg").getAbsolutePath)
+scalacOptions ++= {
+  (if (scalaBinaryVersion.value.startsWith("3."))
+    Seq(
+      "-deprecation",
+      "-encoding", "utf-8",
+      "-feature",
+      "-unchecked",
+    )
+  else  
+    Seq(
+    "-deprecation",
+    "-encoding", "utf-8",
+    "-explaintypes",
+    "-feature",
+    "-unchecked",
+    "-Ywarn-dead-code",
+    )
+  ) ++ (if (scalaBinaryVersion.value == "2.10" || scalaBinaryVersion.value.startsWith("3.")) Seq.empty else Seq("-Ywarn-unused"))
+}
 
-pgpPassphrase := None
+// Temporary disable publishing of doc in dotty, can't get it to build.
+publishArtifact in (Compile, packageDoc) := !scalaBinaryVersion.value.startsWith("3.")
 
-scalacOptions ++= Seq(
-  "-deprecation",
-  "-encoding", "utf-8",
-  "-explaintypes",
-  "-feature",
-  "-unchecked",
-  "-Ywarn-dead-code",
-) ++ (if (scalaBinaryVersion.value == "2.10") Seq.empty else Seq("-Ywarn-unused"))
+scalacOptions in (Compile, doc) := Seq("-doc-title", s"ScalaTest + Selenium ${version.value}")
