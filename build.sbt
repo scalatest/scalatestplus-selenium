@@ -2,7 +2,7 @@ name := "selenium-3.141"
 
 organization := "org.scalatestplus"
 
-version := "3.2.3.0"
+version := "3.2.4.0-M1"
 
 homepage := Some(url("https://github.com/scalatest/scalatestplus-selenium"))
 
@@ -24,16 +24,16 @@ developers := List(
 )
 
 scalaVersion := "2.13.4"
-crossScalaVersions := List("2.10.7", "2.11.12", "2.12.12", "2.13.4", "3.0.0-M3")
+crossScalaVersions := List("2.10.7", "2.11.12", "2.12.13", "2.13.4", "3.0.0-M3")
 
 libraryDependencies ++= Seq(
-  "org.scalatest" %% "scalatest-core" % "3.2.3",
+  "org.scalatest" %% "scalatest-core" % "3.2.4-M1",
   "org.seleniumhq.selenium" % "selenium-java" % "3.141.59",
   "org.seleniumhq.selenium" % "htmlunit-driver" % "2.39.0",
   "org.eclipse.jetty" % "jetty-server" % "9.4.12.v20180830" % Test,
   "org.eclipse.jetty" % "jetty-webapp" % "9.4.12.v20180830" % Test, 
-  "org.scalatest" %% "scalatest-funspec" % "3.2.3" % Test, 
-  "org.scalatest" %% "scalatest-shouldmatchers" % "3.2.3" % Test
+  "org.scalatest" %% "scalatest-funspec" % "3.2.4-M1" % Test, 
+  "org.scalatest" %% "scalatest-shouldmatchers" % "3.2.4-M1" % Test
 )
 
 Test / scalacOptions ++= (if (isDotty.value) Seq("-language:implicitConversions") else Nil)
