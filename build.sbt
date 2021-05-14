@@ -5,7 +5,7 @@ name := "selenium-3.141"
 
 organization := "org.scalatestplus"
 
-version := "3.2.8.0"
+version := "3.2.9.0"
 
 homepage := Some(url("https://github.com/scalatest/scalatestplus-selenium"))
 
@@ -27,16 +27,16 @@ developers := List(
 )
 
 scalaVersion := "2.13.5"
-crossScalaVersions := List("2.10.7", "2.11.12", "2.12.13", "2.13.5", "3.0.0-RC3")
+crossScalaVersions := List("2.10.7", "2.11.12", "2.12.13", "2.13.5", "3.0.0")
 
 libraryDependencies ++= Seq(
-  "org.scalatest" %% "scalatest-core" % "3.2.8",
+  "org.scalatest" %% "scalatest-core" % "3.2.9",
   "org.seleniumhq.selenium" % "selenium-java" % "3.141.59",
   "org.seleniumhq.selenium" % "htmlunit-driver" % "2.39.0",
   "org.eclipse.jetty" % "jetty-server" % "9.4.12.v20180830" % Test,
   "org.eclipse.jetty" % "jetty-webapp" % "9.4.12.v20180830" % Test, 
-  "org.scalatest" %% "scalatest-funspec" % "3.2.8" % Test, 
-  "org.scalatest" %% "scalatest-shouldmatchers" % "3.2.8" % Test
+  "org.scalatest" %% "scalatest-funspec" % "3.2.9" % Test, 
+  "org.scalatest" %% "scalatest-shouldmatchers" % "3.2.9" % Test
 )
 
 Test / scalacOptions ++= (if (isDotty.value) Seq("-language:implicitConversions") else Nil)
@@ -109,7 +109,7 @@ pomExtra := (
 credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
 
 scalacOptions ++= {
-  (if (scalaBinaryVersion.value.startsWith("3."))
+  (if (scalaBinaryVersion.value.startsWith("3"))
     Seq(
       "-deprecation",
       "-encoding", "utf-8",
@@ -129,7 +129,7 @@ scalacOptions ++= {
 }
 
 // Temporary disable publishing of doc in dotty, can't get it to build.
-publishArtifact in (Compile, packageDoc) := !scalaBinaryVersion.value.startsWith("3.")
+publishArtifact in (Compile, packageDoc) := !scalaBinaryVersion.value.startsWith("3")
 
 def docTask(docDir: File, resDir: File, projectName: String): File = {
   val docLibDir = docDir / "lib"
