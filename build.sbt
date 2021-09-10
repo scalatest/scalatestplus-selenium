@@ -39,8 +39,6 @@ libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest-shouldmatchers" % "3.2.9" % Test
 )
 
-Test / scalacOptions ++= (if (isDotty.value) Seq("-language:implicitConversions") else Nil)
-
 import scala.xml.{Node => XmlNode, NodeSeq => XmlNodeSeq, _}
 import scala.xml.transform.{RewriteRule, RuleTransformer}
 
