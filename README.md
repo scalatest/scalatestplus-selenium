@@ -3,7 +3,7 @@ ScalaTest + Selenium provides integration support between ScalaTest and Selenium
 
 **Usage**
 
-To use it for ScalaTest 3.2.10 and Selenium 3.141.x: 
+To use it for ScalaTest 3.2.10 and Selenium 4.1.x: 
 
 SBT: 
 
