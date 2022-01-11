@@ -8,7 +8,7 @@ To use it for ScalaTest 3.2.10 and Selenium 3.141.x:
 SBT: 
 
 ```
-libraryDependencies += "org.scalatestplus" %% "selenium-3-141" % "3.2.10.0" % "test"
+libraryDependencies += "org.scalatestplus" %% "selenium-4-1" % "3.2.10.0" % "test"
 ```
 
 Maven: 
