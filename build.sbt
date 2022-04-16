@@ -31,8 +31,8 @@ crossScalaVersions := List("2.10.7", "2.11.12", "2.12.15", "2.13.8", "3.0.2")
 
 libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest-core" % "3.2.12-RC2",
-  "org.seleniumhq.selenium" % "selenium-java" % "4.1.1",
-  "org.seleniumhq.selenium" % "htmlunit-driver" % "3.56.0",
+  "org.seleniumhq.selenium" % "selenium-java" % "4.1.2",
+  "org.seleniumhq.selenium" % "htmlunit-driver" % "3.60.0",
   "org.eclipse.jetty" % "jetty-webapp" % "9.4.44.v20210927" % Test, 
   "org.scalatest" %% "scalatest-funspec" % "3.2.12-RC2" % Test, 
   "org.scalatest" %% "scalatest-shouldmatchers" % "3.2.12-RC2" % Test
