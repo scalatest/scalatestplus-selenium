@@ -2,9 +2,6 @@ package org.scalatestplus.selenium
 
 import org.scalatest._
 import SharedHelpers.EventRecordingReporter
-import org.openqa.selenium.firefox.{FirefoxDriver, FirefoxOptions}
-import org.openqa.selenium.chrome.ChromeDriver
-import org.openqa.selenium.ie.InternetExplorerDriver
 import org.scalatest.tagobjects.Slow
 
 class DriverSpec extends funspec.AnyFunSpec {
@@ -34,6 +31,8 @@ class DriverSpec extends funspec.AnyFunSpec {
 
     class GoogleSearchSpecWithChrome extends GoogleSearchSpec with Chrome
     class GoogleSearchSpecWithFirefox extends GoogleSearchSpec with Firefox
+    class GoogleSearchSpecWithInternetExplorer extends GoogleSearchSpec with InternetExplorer
+    class GoogleSearchSpecWithSafari extends GoogleSearchSpec with Safari
     class GoogleSearchSpecWithEdge extends GoogleSearchSpec with Edge
 
     it("should work with Chrome", Slow) {
@@ -76,7 +75,7 @@ class DriverSpec extends funspec.AnyFunSpec {
 
     it("should work with Internet Explorer", Slow) {
       // Cancel when Internet Explorer is not available
-      val s = try new GoogleSearchSpecWithFirefox catch { case e: Throwable => cancel(e) }
+      val s = try new GoogleSearchSpecWithInternetExplorer catch { case e: Throwable => cancel(e) }
       val rep = new EventRecordingReporter
       s.run(None, Args(reporter = rep))
       val scopeOpenedList = rep.scopeOpenedEventsReceived
@@ -95,7 +94,7 @@ class DriverSpec extends funspec.AnyFunSpec {
 
     it("should work with Safari", Slow) {
       // Cancel when Safari is not available
-      val s = try new GoogleSearchSpecWithFirefox catch { case e: Throwable => cancel(e) }
+      val s = try new GoogleSearchSpecWithSafari catch { case e: Throwable => cancel(e) }
       val rep = new EventRecordingReporter
       s.run(None, Args(reporter = rep))
       val scopeOpenedList = rep.scopeOpenedEventsReceived
