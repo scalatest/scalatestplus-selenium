@@ -4776,6 +4776,13 @@ trait Edge extends WebBrowser with Driver with ScreenshotCapturer {
   }
 }
 
+/**
+ * Companion object that facilitates the importing of <code>Edge</code> members as
+ * an alternative to mixing it in. One use case is to import <code>Edge</code> members so you can use
+ * them in the Scala interpreter.
+ */
+object Edge extends Edge
+
 /*
  * <p>
  * If you mix in <a href="../ScreenshotOnFailure.html"><code>ScreenshotOnFailure</code></a>, ScalaTest will capture a screenshot and store it to either the system temp directory
