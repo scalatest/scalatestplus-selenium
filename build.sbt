@@ -31,7 +31,7 @@ crossScalaVersions := List("2.10.7", "2.11.12", "2.12.15", "2.13.8", "3.1.2")
 
 libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest-core" % "3.2.12",
-  "org.seleniumhq.selenium" % "selenium-java" % "4.1.3",
+  "org.seleniumhq.selenium" % "selenium-java" % "4.1.4",
   "org.seleniumhq.selenium" % "htmlunit-driver" % "3.61.0",
   "org.eclipse.jetty" % "jetty-webapp" % "9.4.44.v20210927" % Test, 
   "org.scalatest" %% "scalatest-funspec" % "3.2.12" % Test, 
@@ -54,11 +54,11 @@ pomPostProcess := { (node: XmlNode) =>
   }).transform(node).head
 }
 
-Test / testOptions :=
+/*Test / testOptions :=
   Seq(
     Tests.Argument(TestFrameworks.ScalaTest,
     "-l", "org.scalatest.tags.Slow"
-  ))
+  ))*/
 
 enablePlugins(SbtOsgi)
 
