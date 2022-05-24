@@ -21,6 +21,7 @@ import org.openqa.selenium.safari.SafariDriver
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.ie.InternetExplorerDriver
 import org.openqa.selenium.htmlunit.HtmlUnitDriver
+import org.openqa.selenium.edge.EdgeDriver
 import org.openqa.selenium.By
 import org.openqa.selenium.WebElement
 import java.util.concurrent.TimeUnit
@@ -4757,6 +4758,30 @@ trait InternetExplorer extends WebBrowser with Driver with ScreenshotCapturer {
  * them in the Scala interpreter.
  */
 object InternetExplorer extends InternetExplorer
+
+/**
+ * <code>WebBrowser</code> subtrait that defines an implicit <code>WebDriver</code> for Microsoft Edge (an <code>org.openqa.selenium.edge.EdgeDriver</code>).
+ */
+trait Edge extends WebBrowser with Driver with ScreenshotCapturer {
+  /**
+   * <code>WebBrowser</code> subtrait that defines an implicit <code>WebDriver</code> for Safari (an <code>org.openqa.selenium.safari.SafariDriver</code>).
+   */
+  implicit val webDriver = new EdgeDriver()
+
+  /**
+   * Captures a screenshot and saves it as a file in the specified directory.
+   */
+  def captureScreenshot(directory: String): Unit = {
+    capture toDir directory
+  }
+}
+
+/**
+ * Companion object that facilitates the importing of <code>Edge</code> members as
+ * an alternative to mixing it in. One use case is to import <code>Edge</code> members so you can use
+ * them in the Scala interpreter.
+ */
+object Edge extends Edge
 
 /*
  * <p>
