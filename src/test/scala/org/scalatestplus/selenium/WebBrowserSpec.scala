@@ -2455,18 +2455,25 @@ class WebBrowserSpec extends JettySpec with matchers.should.Matchers with SpanSu
       import org.scalatest.prop.TableDrivenPropertyChecks._
       import org.scalatest.prop.TableFor1
       // Chrome requires a system property, InternetExplorer only works on Windows
-      val examples: TableFor1[WebBrowser with Driver] = {
-        val availableDrivers: List[WebBrowser with Driver] =
+      val availableDrivers: List[WebBrowser with Driver] =
         List(
-          try List(Chrome) catch { case _: Throwable => List.empty[WebBrowser with Driver] },
-          try List(Firefox) catch { case _: Throwable => List.empty[WebBrowser with Driver] },
-          List(HtmlUnit),
-          try List(InternetExplorer) catch { case _: Throwable => List.empty[WebBrowser with Driver] },
-          try List(Safari) catch { case _: Throwable => List.empty[WebBrowser with Driver] }
+          try List(new Chrome {}) catch { case _: Throwable => List.empty[WebBrowser with Driver] },
+          try List(new Firefox {}) catch { case _: Throwable => List.empty[WebBrowser with Driver] },
+          List(new HtmlUnit {}),
+          try List(new InternetExplorer {}) catch { case _: Throwable => List.empty[WebBrowser with Driver] },
+          try List(new Safari {}) catch { case _: Throwable => List.empty[WebBrowser with Driver] },
+          try List(new Edge {}) catch { case _: Throwable => List.empty[WebBrowser with Driver] }
         ).flatten
+      val examples: TableFor1[WebBrowser with Driver] =
         Table("web browser", availableDrivers: _*)
+      try {
+        forAll (examples) { d =>
+          d shouldBe a [Driver]
+        }
+      } finally {
+        availableDrivers.foreach(d => d.close()(d.webDriver))
       }
-      forAll (examples) { d => d shouldBe a [Driver] }
+
     }
   }
   describe("Page trait") {
