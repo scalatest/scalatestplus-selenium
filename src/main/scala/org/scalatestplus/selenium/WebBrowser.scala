@@ -1301,6 +1301,102 @@ trait WebBrowser {
     }
 
     /**
+     * Returns the first child <code>Element</code> selected by the provided query, or throws <code>TestFailedException</code>
+     * if no <code>Element</code> is selected.
+     *
+     * <p>
+     * The class of the <code>Element</code> returned will be a subtype of <code>Element</code> if appropriate.
+     * For example, if this query selects a text field, the class of the returned <code>Element</code> will
+     * be <code>TextField</code>.
+     * </p>
+     *
+     * @param query the <code>Query</code> used to lookup the child element
+     * @return the child <code>Element</code> selected by the provided query
+     * @throws TestFailedException if nothing is selected by the provided query
+     */
+    def childElement(query: Query)(implicit pos: source.Position = implicitly[source.Position]): Element = {
+      try {
+        createTypedElement(underlying.findElement(query.by), pos)
+      }
+      catch {
+        case e: org.openqa.selenium.NoSuchElementException =>
+          // the following is avoid the suite instance to be bound/dragged into the messageFun, which can cause serialization problem.
+          val queryStringValue = query.queryString
+          throw new TestFailedException(
+            (_: StackDepthException) => Some("Element '" + queryStringValue + "' not found."),
+            Some(e),
+            pos
+          )
+      }
+    }
+
+    /**
+     * Returns the first child <code>Element</code> selected by the provided query, wrapped in a <code>Some</code>, or <code>None</code>
+     * if no <code>Element</code> is selected.
+     *
+     * <p>
+     * The class of the <code>Element</code> returned will be a subtype of <code>Element</code> if appropriate.
+     * For example, if this query selects a text field, the class of the returned <code>Element</code> will
+     * be <code>TextField</code>.
+     * </p>
+     *
+     * @param query the <code>Query</code> used to lookup the child element
+     * @return the child <code>Element</code> selected by the provided query, wrapped in a <code>Some</code>, or <code>None</code> if
+     *   no <code>Element</code> is selected
+     */
+    def findChildElement(query: Query)(implicit pos: source.Position = implicitly[source.Position]): Option[Element] =
+      try {
+        Some(createTypedElement(underlying.findElement(query.by), pos))
+      }
+      catch {
+        case _: org.openqa.selenium.NoSuchElementException => None
+      }
+
+    /**
+     * Returns an <code>Iterator</code> over all child <code>Element</code>s selected by the provided query.
+     *
+     * <p>
+     * The class of the <code>Element</code>s produced by the returned <code>Iterator</code> will be a
+     * subtypes of <code>Element</code> if appropriate.  For example, if an <code>Element</code>representing
+     * a text field is returned by the <code>Iterator</code>, the class of the returned <code>Element</code> will
+     * be <code>TextField</code>.
+     * </p>
+     *
+     * <p>
+     * If no <code>Elements</code> are selected by the provided query, this method will return an empty <code>Iterator</code> will be returned.
+     * <p>
+     *
+     * @param query the <code>Query</code> used to lookup the child elements
+     * @return the <code>Iterator</code> over all <code>Element</code>s selected by the provided query
+     */
+    def findAllChildElements(query: Query)(implicit pos: source.Position = implicitly[source.Position]): Iterator[Element] =
+      underlying.findElements(query.by).asScala.toIterator.map { e => createTypedElement(e, pos) }
+
+    /**
+     * Returns the first <code>WebElement</code> selected by the provided query, or throws <code>TestFailedException</code>
+     * if no <code>WebElement</code> is selected.
+     *
+     * @param query the <code>Query</code> used to lookup the child element
+     * @return the child <code>WebElement</code> selected by the provided query
+     * @throws TestFailedException if nothing is selected by the provided query
+     */
+    def childWebElement(query: Query)(implicit pos: source.Position = implicitly[source.Position]): WebElement = {
+      try {
+        underlying.findElement(query.by)
+      }
+      catch {
+        case e: org.openqa.selenium.NoSuchElementException =>
+          // the following is avoid the suite instance to be bound/dragged into the messageFun, which can cause serialization problem.
+          val queryStringValue = query.queryString
+          throw new TestFailedException(
+            (_: StackDepthException) => Some("WebElement '" + queryStringValue + "' not found."),
+            Some(e),
+            pos
+          )
+      }
+    }
+
+    /**
      * Returns the result of invoking <code>equals</code> on the underlying <code>Element</code>, passing
      * in the specified <code>other</code> object.
      *
