@@ -5,7 +5,7 @@ name := "selenium-4.1"
 
 organization := "org.scalatestplus"
 
-version := "3.2.12.0"
+version := "3.2.12.1"
 
 homepage := Some(url("https://github.com/scalatest/scalatestplus-selenium"))
 
