@@ -13,13 +13,8 @@ jobs:
       with:
         distribution: temurin
         java-version: 8
-    - name: Setup Chrome Browsers
-      uses: browser-actions/setup-chrome@latest    
-    - name: Setup Web Drivers  
-      uses: nanasess/setup-chromedriver@v1
     - name: Build and Test
       run: | 
         export DISPLAY=:99
-        chromedriver --url-base=/wd/hub &
         sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 & # optional
-        sbt -Dwebdriver.chrome.driver=chromedriver -v +test 
+        sbt -v +test 
