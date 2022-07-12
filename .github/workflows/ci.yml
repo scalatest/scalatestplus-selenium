@@ -16,4 +16,6 @@ jobs:
     - name: Setup Web Drivers  
       uses: nanasess/setup-chromedriver@v1
     - name: Build and Test
-      run: sbt -Dwebdriver.chrome.driver=chromedriver -v +test 
+      run: | 
+        export DISPLAY=:99
+        sbt -Dwebdriver.chrome.driver=chromedriver -v +test 
