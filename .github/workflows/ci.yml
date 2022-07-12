@@ -16,4 +16,4 @@ jobs:
     - name: Setup Web Drivers  
       uses: nanasess/setup-chromedriver@v1
     - name: Build and Test
-      run: sbt -Dwebdriver.chrome.driver=/usr/local/share/chrome_driver -v +test 
+      run: sbt -Dwebdriver.chrome.driver=chromedriver -v +test 
