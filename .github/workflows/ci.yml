@@ -14,4 +14,4 @@ jobs:
         distribution: temurin
         java-version: 8
     - name: Build and Test
-      run: sbt -v +test 
+      run: sbt -Dwebdriver.chrome.driver=/usr/local/share/chrome_driver -v +test 
