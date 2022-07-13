@@ -8,7 +8,7 @@ class DriverSpec extends funspec.AnyFunSpec {
 
   describe("Tests grouped using Driver trait") {
 
-    trait GoogleSearchSpec extends funspec.AnyFunSpecLike with concurrent.Eventually { this: WebBrowser with Driver =>
+    trait GoogleSearchSpec extends funspec.AnyFunSpecLike with concurrent.Eventually with concurrent.IntegrationPatience { this: WebBrowser with Driver =>
 
       describe("google.com") {
 
