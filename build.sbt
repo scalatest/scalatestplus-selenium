@@ -34,8 +34,8 @@ libraryDependencies ++= Seq(
   "org.seleniumhq.selenium" % "selenium-java" % "4.2.2",
   "org.seleniumhq.selenium" % "htmlunit-driver" % "3.61.0",
   "org.eclipse.jetty" % "jetty-webapp" % "9.4.44.v20210927" % Test, 
-  "org.scalatest" %% "scalatest-funspec" % "3.2.12" % Test, 
-  "org.scalatest" %% "scalatest-shouldmatchers" % "3.2.12" % Test
+  "org.scalatest" %% "scalatest-funspec" % "3.2.13" % Test, 
+  "org.scalatest" %% "scalatest-shouldmatchers" % "3.2.13" % Test
 )
 
 import scala.xml.{Node => XmlNode, NodeSeq => XmlNodeSeq, _}
