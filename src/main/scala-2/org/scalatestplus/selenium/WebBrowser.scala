@@ -2761,7 +2761,7 @@ trait WebBrowser {
      * @param url the URL to which to send the browser
      * @param driver the <code>WebDriver</code> with which to drive the browser
      */
-    def to(url: String)(implicit driver: WebDriver): Unit = {
+    /*infix*/ def to(url: String)(implicit driver: WebDriver): Unit = {
       driver.get(url)
     }
 
@@ -2780,7 +2780,7 @@ trait WebBrowser {
      * @param page the <code>Page</code> object containing the URL to which to send the browser
      * @param driver the <code>WebDriver</code> with which to drive the browser
      */
-    def to(page: Page)(implicit driver: WebDriver): Unit = {
+    /*infix*/ def to(page: Page)(implicit driver: WebDriver): Unit = {
       driver.get(page.url)
     }
   }
@@ -3889,7 +3889,7 @@ trait WebBrowser {
      * 
      * @param element the <code>WebElement</code> to click on
      */
-    def on(element: WebElement): Unit = {
+    /*infix*/ def on(element: WebElement): Unit = {
       element.click()
     }
     
@@ -3899,7 +3899,7 @@ trait WebBrowser {
      * @param query the <code>Query</code> with which to search
      * @param driver the <code>WebDriver</code> with which to drive the browser
      */
-    def on(query: Query)(implicit driver: WebDriver): Unit = {
+    /*infix*/ def on(query: Query)(implicit driver: WebDriver): Unit = {
       query.webElement.click()
     }
   
@@ -3909,7 +3909,7 @@ trait WebBrowser {
      * @param queryString the string with which to search, first by ID then by name
      * @param driver the <code>WebDriver</code> with which to drive the browser
      */
-    def on(queryString: String)(implicit driver: WebDriver, pos: source.Position = implicitly[source.Position]): Unit = {
+    /*infix*/ def on(queryString: String)(implicit driver: WebDriver, pos: source.Position = implicitly[source.Position]): Unit = {
       // stack depth is not correct if just call the button("...") directly.
       val target = tryQueries(queryString)(q => q.webElement)
       on(target)
@@ -3920,7 +3920,7 @@ trait WebBrowser {
      * 
      * @param element the <code>Element</code> to click on
      */
-    def on(element: Element): Unit = {
+    /*infix*/ def on(element: Element): Unit = {
       element.underlying.click()
     }
   }
@@ -4062,7 +4062,7 @@ trait WebBrowser {
      * @param driver the <code>WebDriver</code> with which to drive the browser
      * @return instance of specified <code>SwitchTarget</code>'s type parameter
      */
-    def to[T](target: SwitchTarget[T])(implicit driver: WebDriver, pos: source.Position = implicitly[source.Position]): T = {
+    /*infix*/ def to[T](target: SwitchTarget[T])(implicit driver: WebDriver, pos: source.Position = implicitly[source.Position]): T = {
       target.switch(driver)(pos)
     }
   }
@@ -4321,7 +4321,7 @@ trait WebBrowser {
      * @param name cookie's name
      * @param driver the <code>WebDriver</code> with which to drive the browser
      */
-    def cookie(name: String)(implicit driver: WebDriver, pos: source.Position = implicitly[source.Position]): Unit = {
+    /*infix*/ def cookie(name: String)(implicit driver: WebDriver, pos: source.Position = implicitly[source.Position]): Unit = {
       deleteCookie(name)
     }
     
@@ -4330,7 +4330,7 @@ trait WebBrowser {
      * 
      * @param driver the <code>WebDriver</code> with which to drive the browser
      */
-    def all(cookies: CookiesNoun)(implicit driver: WebDriver, pos: source.Position = implicitly[source.Position]): Unit = {
+    /*infix*/ def all(cookies: CookiesNoun)(implicit driver: WebDriver, pos: source.Position = implicitly[source.Position]): Unit = {
       driver.manage.deleteAllCookies()
     }
   }
@@ -4417,7 +4417,7 @@ trait WebBrowser {
      * 
      * @param fileName screenshot file name, if does not end with .png, it will be extended automatically
      */
-    def to(fileName: String)(implicit driver: WebDriver): Unit = {
+    /*infix*/ def to(fileName: String)(implicit driver: WebDriver): Unit = {
       driver match {
         case takesScreenshot: TakesScreenshot => 
           val tmpFile = takesScreenshot.getScreenshotAs(OutputType.FILE)
@@ -4433,7 +4433,7 @@ trait WebBrowser {
       *
       * @param dirName directory name to save screenshot.
       */
-    def toDir(dirName: String)(implicit driver: WebDriver): Unit = {
+    /*infix*/ def toDir(dirName: String)(implicit driver: WebDriver): Unit = {
       driver match {
         case takesScreenshot: TakesScreenshot =>
           val tmpFile = takesScreenshot.getScreenshotAs(OutputType.FILE)

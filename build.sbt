@@ -125,6 +125,12 @@ scalacOptions ++= {
   ) ++ (if (scalaBinaryVersion.value == "2.10" || scalaBinaryVersion.value.startsWith("3.")) Seq.empty else Seq("-Ywarn-unused"))
 }
 
+Compile / sourceGenerators += {
+  Def.task {
+    Generator.generateWebBrowserForScala3(scalaVersion.value, (sourceManaged in Compile).value)
+  }.taskValue
+}
+
 // Temporary disable publishing of doc in dotty, can't get it to build.
 Compile / packageDoc / publishArtifact := !scalaBinaryVersion.value.startsWith("3")
 
