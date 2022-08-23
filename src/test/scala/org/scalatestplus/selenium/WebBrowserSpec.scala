@@ -144,11 +144,12 @@ trait InputFieldBehaviour extends JettySpec with matchers.should.Matchers with S
       fn("secret1").value should be ("")                   
 
       pressKeys("first secret!")
-      fn("secret1").value should be ("first secret!")                   
+      // Email field won't allow space to be entered by key.
+      fn("secret1").value should be (if (file == "emailfield.html") "firstsecret!" else "first secret!")                   
       pressKeys(" second secret!")
-      fn("secret1").value should be ("first secret! second secret!")                   
+      fn("secret1").value should be (if (file == "emailfield.html") "firstsecret!secondsecret!" else "first secret! second secret!")                   
       pressKeys(" third secret!")
-      fn("secret1").value should be ("first secret! second secret! third secret!")                   
+      fn("secret1").value should be (if (file == "emailfield.html") "firstsecret!secondsecret!thirdsecret!" else "first secret! second secret! third secret!")                   
     }
 
   }
@@ -906,7 +907,7 @@ class WebBrowserSpec extends JettySpec with matchers.should.Matchers with SpanSu
     it should behave like enterField[TelField]("telfield.html", telField _, "TelField", "tel2")
     it should behave like enterField[UrlField]("urlfield.html", urlField _, "UrlField", "url2")
 
-    it("should allow text to be entered in the active element if it is a email field.") {
+    it("should allow non-space text to be entered in the active element if it is a email field.") {
       go to (host + "emailfield.html")
       pageTitle should be ("EmailField")
                                                                 
@@ -921,11 +922,11 @@ class WebBrowserSpec extends JettySpec with matchers.should.Matchers with SpanSu
       emailField("secret1").value should be ("")                   
 
       pressKeys("first secret!")
-      emailField("secret1").value should be ("first secret!")                   
+      emailField("secret1").value should be ("firstsecret!")                   
       pressKeys(" second secret!")
-      emailField("secret1").value should be ("first secret! second secret!")                   
+      emailField("secret1").value should be ("firstsecret!secondsecret!")                   
       pressKeys(" third secret!")
-      emailField("secret1").value should be ("first secret! second secret! third secret!")                   
+      emailField("secret1").value should be ("firstsecret!secondsecret!thirdsecret!")                   
     }
 
     it("should allow text to be entered in the active element if it is a search field.") {
@@ -1332,7 +1333,7 @@ class WebBrowserSpec extends JettySpec with matchers.should.Matchers with SpanSu
     }
     
     it("isScreenshotSupported should return false for HtmlUnitDriver") {
-      val driver = try new HtmlUnitDriver catch { case e: Throwable => cancel(e) }
+      val driver = try new HtmlUnitDriver(true) catch { case e: Throwable => cancel(e) }
       try isScreenshotSupported(driver) should be (false)
       finally close()(driver)
     }
