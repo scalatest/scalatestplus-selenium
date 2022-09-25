@@ -5,7 +5,7 @@ name := "selenium-4.4"
 
 organization := "org.scalatestplus"
 
-version := "3.2.13.0"
+version := "3.2.14.0"
 
 homepage := Some(url("https://github.com/scalatest/scalatestplus-selenium"))
 
@@ -30,12 +30,12 @@ scalaVersion := "2.13.8"
 crossScalaVersions := List("2.10.7", "2.11.12", "2.12.16", "2.13.8", "3.1.3")
 
 libraryDependencies ++= Seq(
-  "org.scalatest" %% "scalatest-core" % "3.2.13",
+  "org.scalatest" %% "scalatest-core" % "3.2.14",
   "org.seleniumhq.selenium" % "selenium-java" % "4.4.0",
   "org.seleniumhq.selenium" % "htmlunit-driver" % "3.64.0",
   "org.eclipse.jetty" % "jetty-webapp" % "9.4.48.v20220622" % Test, 
-  "org.scalatest" %% "scalatest-funspec" % "3.2.13" % Test, 
-  "org.scalatest" %% "scalatest-shouldmatchers" % "3.2.13" % Test
+  "org.scalatest" %% "scalatest-funspec" % "3.2.14" % Test, 
+  "org.scalatest" %% "scalatest-shouldmatchers" % "3.2.14" % Test
 )
 
 import scala.xml.{Node => XmlNode, NodeSeq => XmlNodeSeq, _}
