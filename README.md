@@ -3,12 +3,12 @@ ScalaTest + Selenium provides integration support between ScalaTest and Selenium
 
 **Usage**
 
-To use it for ScalaTest 3.2.14 and Selenium 4.4.x: 
+To use it for ScalaTest 3.2.14 and Selenium 4.6.x: 
 
 SBT: 
 
 ```
-libraryDependencies += "org.scalatestplus" %% "selenium-4-4" % "3.2.14.0" % "test"
+libraryDependencies += "org.scalatestplus" %% "selenium-4-6" % "3.2.14.0" % "test"
 ```
 
 Maven: 
@@ -16,7 +16,7 @@ Maven:
 ```
 <dependency>
   <groupId>org.scalatestplus</groupId>
-  <artifactId>selenium-4-4_2.13</artifactId>
+  <artifactId>selenium-4-6_2.13</artifactId>
   <version>3.2.14.0</version>
   <scope>test</scope>
 </dependency>
