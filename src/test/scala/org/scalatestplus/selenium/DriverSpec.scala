@@ -17,7 +17,7 @@ class DriverSpec extends funspec.AnyFunSpec {
           try goTo("https://www.google.com") catch { case e: Throwable => cancel(e) }
           try {
             clickOn("q")
-            textField("q").value = "Cheese!"
+            textArea("q").value = "Cheese!"
             submit()
             // Google's search is rendered dynamically with JavaScript.
             eventually(assert(pageTitle === "Cheese! - Google Search"))
@@ -68,6 +68,7 @@ class DriverSpec extends funspec.AnyFunSpec {
       val testStartingList = rep.testStartingEventsReceived
       assert(testStartingList.size == 1)
       assert(testStartingList(0).testName == "google.com should change its title based on the term searched")
+      println("####debug: " + rep.testFailedEventsReceived)
       val testSucceededList = rep.testSucceededEventsReceived
       assert(testSucceededList.size == 1)
       assert(testSucceededList(0).testName == "google.com should change its title based on the term searched")
