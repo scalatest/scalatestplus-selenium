@@ -1,11 +1,11 @@
 import java.io.PrintWriter
 import scala.io.Source
 
-name := "selenium-4.7"
+name := "selenium-4.9"
 
 organization := "org.scalatestplus"
 
-version := "3.2.15.0"
+version := "3.2.16.0"
 
 homepage := Some(url("https://github.com/scalatest/scalatestplus-selenium"))
 
@@ -30,12 +30,12 @@ scalaVersion := "2.13.10"
 crossScalaVersions := List("2.10.7", "2.11.12", "2.12.17", "2.13.10", "3.1.3")
 
 libraryDependencies ++= Seq(
-  "org.scalatest" %% "scalatest-core" % "3.2.15",
-  "org.seleniumhq.selenium" % "selenium-java" % "4.7.2",
-  "org.seleniumhq.selenium" % "htmlunit-driver" % "4.7.2",
+  "org.scalatest" %% "scalatest-core" % "3.2.16",
+  "org.seleniumhq.selenium" % "selenium-java" % "4.9.1",
+  "org.seleniumhq.selenium" % "htmlunit-driver" % "4.9.0",
   "org.eclipse.jetty" % "jetty-webapp" % "9.4.48.v20220622" % Test, 
-  "org.scalatest" %% "scalatest-funspec" % "3.2.15" % Test, 
-  "org.scalatest" %% "scalatest-shouldmatchers" % "3.2.15" % Test
+  "org.scalatest" %% "scalatest-funspec" % "3.2.16" % Test, 
+  "org.scalatest" %% "scalatest-shouldmatchers" % "3.2.16" % Test
 )
 
 import scala.xml.{Node => XmlNode, NodeSeq => XmlNodeSeq, _}
