@@ -24,19 +24,19 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver
 import org.openqa.selenium.edge.EdgeDriver
 import org.openqa.selenium.By
 import org.openqa.selenium.WebElement
-import java.util.concurrent.TimeUnit
 
+import java.util.concurrent.TimeUnit
 import scala.collection.JavaConverters._
 import org.openqa.selenium.Cookie
-import java.util.Date
 
+import java.util.Date
 import org.scalatest.time.Span
 import org.openqa.selenium.TakesScreenshot
 import org.openqa.selenium.OutputType
+
 import java.io.File
 import java.io.FileOutputStream
 import java.io.FileInputStream
-
 import org.openqa.selenium.Alert
 import org.openqa.selenium.support.ui.Select
 import org.scalatest.exceptions.TestFailedException
@@ -44,7 +44,9 @@ import org.scalatest.exceptions.StackDepthException
 import org.openqa.selenium.JavascriptExecutor
 import org.scalactic.source
 import org.openqa.selenium.firefox.FirefoxOptions
+
 import java.io.Closeable
+import java.time.Duration
 
 /**
  * Trait that provides a domain specific language (DSL) for writing browser-based tests using <a href="http://seleniumhq.org">Selenium</a>.  
@@ -4015,7 +4017,7 @@ trait WebBrowser {
    * @param driver the <code>WebDriver</code> on which to set the implicit wait
    */
   def implicitlyWait(timeout: Span)(implicit driver: WebDriver): Unit = {
-    driver.manage.timeouts.implicitlyWait(timeout.totalNanos, TimeUnit.NANOSECONDS)
+    driver.manage.timeouts.implicitlyWait(Duration.ofNanos(timeout.totalNanos))
   }
 
   /**
@@ -4599,7 +4601,7 @@ trait WebBrowser {
    * @param timeout the amount of time to wait for an asynchronous script to finish execution before throwing exception
    */
   def setScriptTimeout(timeout: Span)(implicit driver: WebDriver): Unit = {
-    driver.manage().timeouts().setScriptTimeout(timeout.totalNanos, TimeUnit.NANOSECONDS);
+    driver.manage().timeouts().scriptTimeout(Duration.ofNanos(timeout.totalNanos));
   }
 
   // Clears the text field or area, then presses the passed keys
@@ -4860,7 +4862,7 @@ object InternetExplorer extends InternetExplorer
  */
 trait Edge extends WebBrowser with Driver with ScreenshotCapturer {
   /**
-   * <code>WebBrowser</code> subtrait that defines an implicit <code>WebDriver</code> for Safari (an <code>org.openqa.selenium.safari.SafariDriver</code>).
+   * <code>WebBrowser</code> subtrait that defines an implicit <code>WebDriver</code> for Microsoft Edge (an <code>org.openqa.selenium.edge.EdgeDriver</code>).
    */
   implicit val webDriver = new EdgeDriver()
 
