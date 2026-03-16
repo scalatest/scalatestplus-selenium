@@ -1,0 +1,18 @@
+<html>
+<head>
+<script>
+  // Get the search term from URL query parameter
+  const urlParams = new URLSearchParams(window.location.search);
+  const searchTerm = urlParams.get('q') || '';
+  // Set the page title based on search term
+  document.title = searchTerm + ' - Google Search';
+</script>
+</head>
+<body>
+  <h1>Mock Google Search Results</h1>
+  <p>Search term: <span id="search-term"></span></p>
+  <script>
+    document.getElementById('search-term').textContent = urlParams.get('q') || '';
+  </script>
+</body>
+</html>
