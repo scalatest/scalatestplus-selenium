@@ -83,10 +83,7 @@ OsgiKeys.additionalHeaders:= Map(
   "Bundle-Vendor" -> "Artima, Inc."
 )
 
-publishTo := {
-  val nexus = "https://oss.sonatype.org/"
-  Some("publish-releases" at nexus + "service/local/staging/deploy/maven2")
-}
+publishTo := localStaging.value
 
 publishMavenStyle := true
 
