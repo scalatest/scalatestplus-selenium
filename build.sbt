@@ -1,7 +1,7 @@
 import java.io.PrintWriter
 import scala.io.Source
 
-name := "selenium-4.21"
+name := "selenium-4.41"
 
 organization := "org.scalatestplus"
 
@@ -26,13 +26,13 @@ developers := List(
   )
 )
 
-scalaVersion := "2.13.13"
+scalaVersion := "2.13.18"
 
-crossScalaVersions := List("2.11.12", "2.12.19", "2.13.13", "3.3.3")
+crossScalaVersions := List("2.11.12", "2.12.21", "2.13.18", "3.3.7")
 
 libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest-core" % "3.2.19",
-  "org.seleniumhq.selenium" % "selenium-java" % "4.21.0",
+  "org.seleniumhq.selenium" % "selenium-java" % "4.41.0",
   "org.seleniumhq.selenium" % "htmlunit-driver" % "4.13.0",
   "org.eclipse.jetty" % "jetty-webapp" % "9.4.48.v20220622" % Test, 
   "org.scalatest" %% "scalatest-funspec" % "3.2.19" % Test, 

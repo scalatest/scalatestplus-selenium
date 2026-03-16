@@ -14,12 +14,12 @@ If ScalaTest has saved you time, helped you ship better software, or become a ke
 
 **Usage**
 
-To use it for ScalaTest 3.2.19 and Selenium 4.21.x: 
+To use it for ScalaTest 3.2.19 and Selenium 4.41.x: 
 
 SBT: 
 
 ```
-libraryDependencies += "org.scalatestplus" %% "selenium-4-21" % "3.2.19.0" % "test"
+libraryDependencies += "org.scalatestplus" %% "selenium-4-41" % "3.2.19.0" % "test"
 ```
 
 Maven: 
@@ -27,7 +27,7 @@ Maven:
 ```
 <dependency>
   <groupId>org.scalatestplus</groupId>
-  <artifactId>selenium-4-21_3</artifactId>
+  <artifactId>selenium-4-41_3</artifactId>
   <version>3.2.19.0</version>
   <scope>test</scope>
 </dependency>

@@ -36,6 +36,7 @@ import org.openqa.selenium.OutputType
 import java.io.File
 import java.io.FileOutputStream
 import java.io.FileInputStream
+import java.time.Duration
 
 import org.openqa.selenium.Alert
 import org.openqa.selenium.support.ui.Select
@@ -4015,7 +4016,7 @@ trait WebBrowser {
    * @param driver the <code>WebDriver</code> on which to set the implicit wait
    */
   def implicitlyWait(timeout: Span)(implicit driver: WebDriver): Unit = {
-    driver.manage.timeouts.implicitlyWait(timeout.totalNanos, TimeUnit.NANOSECONDS)
+    driver.manage.timeouts.implicitlyWait(Duration.ofNanos(timeout.totalNanos))
   }
 
   /**
@@ -4599,7 +4600,7 @@ trait WebBrowser {
    * @param timeout the amount of time to wait for an asynchronous script to finish execution before throwing exception
    */
   def setScriptTimeout(timeout: Span)(implicit driver: WebDriver): Unit = {
-    driver.manage().timeouts().setScriptTimeout(timeout.totalNanos, TimeUnit.NANOSECONDS);
+    driver.manage().timeouts().scriptTimeout(Duration.ofNanos(timeout.totalNanos));
   }
 
   // Clears the text field or area, then presses the passed keys
