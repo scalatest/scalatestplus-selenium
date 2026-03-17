@@ -109,10 +109,42 @@ class DriverSpec extends JettySpec {
     }
 
     it("should work with Microsoft Edge", Slow) {
+      // Debug information
+      println(s"=== Edge Test Debug Info ===")
+      println(s"OS: ${System.getProperty("os.name")}")
+      println(s"OS Version: ${System.getProperty("os.version")}")
+      println(s"OS Arch: ${System.getProperty("os.arch")}")
+      println(s"Java Version: ${System.getProperty("java.version")}")
+      println(s"Java Home: ${System.getProperty("java.home")}")
+
       // Cancel when Microsoft Edge is not available
-      val s = try new GoogleSearchSpecWithEdge catch { case e: Throwable => cancel(e) }
+      val s = try {
+        println("Attempting to create GoogleSearchSpecWithEdge...")
+        val spec = new GoogleSearchSpecWithEdge
+        println("Successfully created GoogleSearchSpecWithEdge")
+        spec
+      } catch {
+        case e: Throwable =>
+          println(s"Failed to create GoogleSearchSpecWithEdge:")
+          println(s"  Exception type: ${e.getClass.getName}")
+          println(s"  Exception message: ${e.getMessage}")
+          println(s"  Stack trace:")
+          e.getStackTrace.take(10).foreach(st => println(s"    at $st"))
+          cancel(e)
+      }
+
       val rep = new EventRecordingReporter
+      println("Running spec with EventRecordingReporter...")
       s.run(None, Args(reporter = rep))
+
+      println(s"Test execution completed. Event counts:")
+      println(s"  Scope opened: ${rep.scopeOpenedEventsReceived.size}")
+      println(s"  Scope closed: ${rep.scopeClosedEventsReceived.size}")
+      println(s"  Test started: ${rep.testStartingEventsReceived.size}")
+      println(s"  Test succeeded: ${rep.testSucceededEventsReceived.size}")
+      println(s"  Test failed: ${rep.testFailedEventsReceived.size}")
+      println(s"  Test canceled: ${rep.testCanceledEventsReceived.size}")
+
       val scopeOpenedList = rep.scopeOpenedEventsReceived
       assert(scopeOpenedList.size == 1)
       assert(scopeOpenedList(0).message == "mock-google-search.html")
@@ -125,6 +157,7 @@ class DriverSpec extends JettySpec {
       val testSucceededList = rep.testSucceededEventsReceived
       assert(testSucceededList.size == 1)
       assert(testSucceededList(0).testName == "mock-google-search.html should change its title based on the term searched")
+      println("=== Edge Test Debug Info End ===")
     }
   }
 
