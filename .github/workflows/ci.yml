@@ -15,10 +15,12 @@ jobs:
         java-version: 11
     - name: Setup sbt
       uses: sbt/setup-sbt@v1
+    - name: Download browsers
+      run: ./download-browsers.sh
     - name: Build and Test
       run: |
         export DISPLAY=:99
         sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 & # optional
         export MOZ_HEADLESS=1
-        export SE_AVOID_BROWSER_DOWNLOAD=true
+        export SE_TIMEOUT=600
         sbt -v +test  
