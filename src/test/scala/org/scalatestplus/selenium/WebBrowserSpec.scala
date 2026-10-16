@@ -144,12 +144,11 @@ trait InputFieldBehaviour extends JettySpec with matchers.should.Matchers with S
       fn("secret1").value should be ("")                   
 
       pressKeys("first secret!")
-      // Email field won't allow space to be entered by key.
-      fn("secret1").value should be (if (file == "emailfield.html") "firstsecret!" else "first secret!")                   
+      fn("secret1").value should be ("first secret!")
       pressKeys(" second secret!")
-      fn("secret1").value should be (if (file == "emailfield.html") "firstsecret!secondsecret!" else "first secret! second secret!")                   
+      fn("secret1").value should be ("first secret! second secret!")
       pressKeys(" third secret!")
-      fn("secret1").value should be (if (file == "emailfield.html") "firstsecret!secondsecret!thirdsecret!" else "first secret! second secret! third secret!")                   
+      fn("secret1").value should be ("first secret! second secret! third secret!")                   
     }
 
   }
@@ -257,7 +256,7 @@ class WebBrowserSpec extends JettySpec with matchers.should.Matchers with SpanSu
   }
 
   describe("timeField") {
-    it should behave like inputField[TimeField]("find-timefield.html", timeField _, "TimeField", "time", "20:20:20", "21:21:21", here.lineNumber)
+    it should behave like inputField[TimeField]("find-timefield.html", timeField _, "TimeField", "time", "01:20", "02:21", here.lineNumber)
   }
 
   describe("urlField") {
@@ -606,7 +605,7 @@ class WebBrowserSpec extends JettySpec with matchers.should.Matchers with SpanSu
     it should behave like findField[RangeField]("find-rangefield.html", "RangeField", "range", "12")
     it should behave like findField[SearchField]("find-searchfield.html", "SearchField", "search", "search1")
     it should behave like findField[TelField]("find-telfield.html", "TelField", "tel", "tel1")
-    it should behave like findField[TimeField]("find-timefield.html", "TimeField", "time", "20:20:20")
+    it should behave like findField[TimeField]("find-timefield.html", "TimeField", "time", "01:20")
     it should behave like findField[UrlField]("find-urlfield.html", "UrlField", "url", "http://1.bar.com")
     it should behave like findField[WeekField]("find-weekfield.html", "WeekField", "week", "1996-W16")
 
@@ -706,7 +705,7 @@ class WebBrowserSpec extends JettySpec with matchers.should.Matchers with SpanSu
     it should behave like iteratorField[RangeField]("find-rangefield.html", "RangeField", "range", "12")
     it should behave like iteratorField[SearchField]("find-searchfield.html", "SearchField", "search", "search1")
     it should behave like iteratorField[TelField]("find-telfield.html", "TelField", "tel", "tel1")
-    it should behave like iteratorField[TimeField]("find-timefield.html", "TimeField", "time", "20:20:20")
+    it should behave like iteratorField[TimeField]("find-timefield.html", "TimeField", "time", "01:20")
     it should behave like iteratorField[UrlField]("find-urlfield.html", "UrlField", "url", "http://1.bar.com")
     it should behave like iteratorField[WeekField]("find-weekfield.html", "WeekField", "week", "1996-W16")
 
@@ -852,7 +851,7 @@ class WebBrowserSpec extends JettySpec with matchers.should.Matchers with SpanSu
     it should behave like valueField[RangeField]("rangefield.html", rangeField _, "RangeField", "range", "50", "12", "3")
     it should behave like valueField[SearchField]("searchfield.html", searchField _, "SearchField", "search", "", "value 1", "value 2")
     it should behave like valueField[TelField]("telfield.html", telField _, "TelField", "tel", "", "value 1", "value 2")
-    it should behave like valueField[TimeField]("timefield.html", timeField _, "TimeField", "time", "", "20:20", "22:22")
+    it should behave like valueField[TimeField]("timefield.html", timeField _, "TimeField", "time", "", "01:20", "02:22")
     it should behave like valueField[UrlField]("urlfield.html", urlField _, "UrlField", "url", "", "http://1.bar.com", "http://2.bar.com")
     it should behave like valueField[WeekField]("weekfield.html", weekField _, "WeekField", "week", "", "1996-W16", "1997-W17")
 
@@ -922,11 +921,11 @@ class WebBrowserSpec extends JettySpec with matchers.should.Matchers with SpanSu
       emailField("secret1").value should be ("")                   
 
       pressKeys("first secret!")
-      emailField("secret1").value should be ("firstsecret!")                   
+      emailField("secret1").value should be ("first secret!")
       pressKeys(" second secret!")
-      emailField("secret1").value should be ("firstsecret!secondsecret!")                   
+      emailField("secret1").value should be ("first secret! second secret!")
       pressKeys(" third secret!")
-      emailField("secret1").value should be ("firstsecret!secondsecret!thirdsecret!")                   
+      emailField("secret1").value should be ("first secret! second secret! third secret!")                   
     }
 
     it("should allow text to be entered in the active element if it is a search field.") {
@@ -1028,7 +1027,7 @@ class WebBrowserSpec extends JettySpec with matchers.should.Matchers with SpanSu
     it should behave like clearField[RangeField]("rangefield.html", rangeField _, "RangeField", "range", "50", "3")
     it should behave like clearField[SearchField]("searchfield.html", searchField _, "SearchField", "search", "", "value 1")
     it should behave like clearField[TelField]("telfield.html", telField _, "TelField", "tel", "", "value 1")
-    it should behave like clearField[TimeField]("timefield.html", timeField _, "TimeField", "time", "", "20:20")
+    it should behave like clearField[TimeField]("timefield.html", timeField _, "TimeField", "time", "", "01:20")
     it should behave like clearField[UrlField]("urlfield.html", urlField _, "UrlField", "url", "", "http://1.bar.com")
     it should behave like clearField[WeekField]("weekfield.html", weekField _, "WeekField", "week", "", "1996-W16")
 
